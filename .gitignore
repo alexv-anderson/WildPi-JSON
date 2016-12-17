@@ -1,0 +1,9 @@
+#Intelllij
+.idea/
+*.iml
+out/
+
+#Ant output
+bin/
+jar/
+report/
