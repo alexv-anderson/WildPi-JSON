@@ -12,9 +12,9 @@ public class JSONFactory
         return new SimpleJSONObject();
     }
 
-    public static <T> JSONArray<T> getEmptyJSONArray(Class<T> clazz)
+    public static JSONArray getEmptyJSONArray()
     {
-        return new SimpleJSONArray<>();
+        return new SimpleJSONArray();
     }
 
     public static JSONPair getJSONPair(String name, JSONValue value)

@@ -5,18 +5,18 @@ import json.model.JSONArray;
 /**
  * Created by Alex on 12/17/2016.
  */
-public class ArrayJSONValue<T> implements JSONValue<JSONArray<T>>
+public class ArrayJSONValue implements JSONValue<JSONArray>
 {
-    public ArrayJSONValue(JSONArray<T> jsonArray)
+    public ArrayJSONValue(JSONArray jsonArray)
     {
         this.jsonArray = jsonArray;
     }
 
     @Override
-    public JSONArray<T> getValue()
+    public JSONArray getValue()
     {
         return jsonArray;
     }
 
-    private JSONArray<T> jsonArray;
+    private JSONArray jsonArray;
 }

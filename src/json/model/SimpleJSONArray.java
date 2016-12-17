@@ -8,23 +8,23 @@ import java.util.List;
 /**
  * Created by Alex on 12/17/2016.
  */
-public class SimpleJSONArray<T> implements JSONArray<T>
+class SimpleJSONArray implements JSONArray
 {
     public SimpleJSONArray()
     {
         this.values = new LinkedList<>();
     }
 
-    public SimpleJSONArray(List<JSONValue<T>> values)
+    public SimpleJSONArray(List<JSONValue> values)
     {
         this.values = new LinkedList<>(values);
     }
 
     @Override
-    public List<JSONValue<T>> getElements()
+    public List<JSONValue> getElements()
     {
         return values;
     }
 
-    private List<JSONValue<T>> values;
+    private List<JSONValue> values;
 }
