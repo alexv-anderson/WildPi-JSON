@@ -4,10 +4,7 @@ import json.model.JSONArray;
 import json.model.JSONFactory;
 import json.model.JSONObject;
 import json.model.JSONPair;
-import json.model.values.ArrayJSONValue;
-import json.model.values.JSONValue;
-import json.model.values.ObjectJSONValue;
-import json.model.values.StringJSONValue;
+import json.model.values.*;
 
 /**
  * Helper class which parses a string of json
@@ -18,7 +15,7 @@ public class JSONModelParser
 {
     public static void main(String[] args)
     {
-        JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1], 2 ], object: { name2: value2, name3: value3 } }");
+        JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1, 2.0, null, true, false], 2 ], object: { name2: value2, name3: value3 } }");
         jsonObject.getMembers().forEach(System.out::println);
         System.out.println("Hello");
     }
@@ -109,30 +106,23 @@ public class JSONModelParser
      */
     private static JSONValue parseValue(StringBuilder sb)
     {
-        if(sb.indexOf(COMMA) < 0)
-        {
-            int endIndex = getNetTerminalCharIndex(sb);
-            String value = sb.substring(0, endIndex);
-            if(sb.charAt(endIndex) == cCOMMA)
-                sb.delete(0, endIndex+1);
-            else
-                sb.delete(0, endIndex);
-            //String value = sb.toString();
-            //sb.delete(0, sb.length());
-            return new StringJSONValue(value);
-        }
+        int endIndex = getNetTerminalCharIndex(sb);
+        String value = sb.substring(0, endIndex);
+        if(sb.charAt(endIndex) == cCOMMA)
+            sb.delete(0, endIndex+1);
         else
-        {
-            //String value = sb.substring(0, sb.indexOf(COMMA));
-            //sb.delete(0, sb.indexOf(COMMA) + 1);
-            int endIndex = getNetTerminalCharIndex(sb);
-            String value = sb.substring(0, endIndex);
-            if(sb.charAt(endIndex) == cCOMMA)
-                sb.delete(0, endIndex+1);
-            else
-                sb.delete(0, endIndex);
-            return new StringJSONValue(value);
-        }
+            sb.delete(0, endIndex);
+
+        if(value.matches("^[0-9]+$"))
+            return new NumberJSONValue(Integer.parseInt(value));
+        if(value.matches("^[0-9]+\\.([0-9]+)?"))
+            return new NumberJSONValue(Double.parseDouble(value));
+        if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+            return new BooleanJSONValue(Boolean.parseBoolean(value));
+        if(value.equalsIgnoreCase("null"))
+            return new NullJSONValue();
+
+        return new StringJSONValue(value);
     }
 
     /**
