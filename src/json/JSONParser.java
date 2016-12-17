@@ -9,6 +9,13 @@ import java.util.stream.Collectors;
  */
 public class JSONParser
 {
+    public static void main(String[] args)
+    {
+        List<JSONParser.Pair> pairs = new LinkedList<>();
+        JSONParser.parseJSON("{ name: value, array: [ 1, 2 ], object: { name2: value2, name3: value3 } }")
+                  .forEach(System.out::println);
+    }
+
     /**
      * Handles -> initial nameless object
      * @param json
@@ -155,20 +162,20 @@ public class JSONParser
         public Object getResult();
     }
 
-    public static interface Pair<V>
-    {
-        public String getName();
-        public V getValue();
-    }
+//    public static interface Pair<V>
+//    {
+//        public String getName();
+//        public V getValue();
+//    }
 
-    public static class StringValuedPair implements Pair<String>
+    public static class Pair//StringValuedPair implements Pair<String>
     {
         /*public Pair(String name)
         {
             this(name, null);
         }*/
 
-        public StringValuedPair(String name, String value)
+        public Pair(String name, Object value)//StringValuedPair(String name, String value)
         {
             this.name = name;
             this.value = value;
@@ -179,7 +186,7 @@ public class JSONParser
             return name;
         }
 
-        public String getValue()
+        public Object getValue()
         {
             return value;
         }
@@ -190,7 +197,7 @@ public class JSONParser
             if(this == o) return true;
             if(o == null || getClass() != o.getClass()) return false;
 
-            StringValuedPair that = (StringValuedPair) o;
+            Pair that = (Pair) o;
 
             if(name != null ? !name.equals(that.name) : that.name != null) return false;
             return value != null ? value.equals(that.value) : that.value == null;
@@ -215,6 +222,6 @@ public class JSONParser
         }
 
         private String name;
-        private String value;
+        private Object value;
     }
 }
