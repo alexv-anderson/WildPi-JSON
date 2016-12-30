@@ -3,7 +3,9 @@ package json.model.values;
 import json.model.JSONArray;
 
 /**
- * Created by Alex on 12/17/2016.
+ * Represents a {@link JSONArray} which is the the value of a name-value pair
+ *
+ * @author Alex
  */
 public class ArrayJSONValue implements JSONValue<JSONArray>
 {

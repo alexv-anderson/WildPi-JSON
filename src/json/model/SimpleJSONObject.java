@@ -4,7 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Alex on 12/17/2016.
+ * A simple bare-bones implementation of {@link JSONObject}
+ *
+ * @author Alex
  */
 class SimpleJSONObject implements JSONObject
 {

@@ -1,7 +1,9 @@
 package json.model.values;
 
 /**
- * Created by Alex on 12/17/2016.
+ * Represents a JSON null value
+ *
+ * @author Alex
  */
 public final class NullJSONValue implements JSONValue<Object>
 {

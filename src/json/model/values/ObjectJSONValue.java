@@ -3,7 +3,9 @@ package json.model.values;
 import json.model.JSONObject;
 
 /**
- * Created by Alex on 12/17/2016.
+ * Represents a {@link JSONObject} which is the the value of a name-value pair
+ *
+ * @author Alex
  */
 public class ObjectJSONValue implements JSONValue<JSONObject>
 {

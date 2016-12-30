@@ -1,7 +1,9 @@
 package json.model.values;
 
 /**
- * Created by Alex on 12/17/2016.
+ * Represents a JSON Number value
+ *
+ * @author Alex
  */
 public class NumberJSONValue implements JSONValue<Number>
 {

@@ -3,7 +3,11 @@ package json.model;
 import json.model.values.JSONValue;
 
 /**
- * Created by Alex on 12/17/2016.
+ * A simple bare-bones implementation of {@link JSONPair}
+ *
+ * @param <T>    The type of value stored in this pair.
+ *
+ * @author Alex
  */
 class SimpleJSONPair<T> implements JSONPair<T>
 {

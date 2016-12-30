@@ -1,7 +1,9 @@
 package json.model.values;
 
 /**
- * Created by Alex on 12/17/2016.
+ * Represents a JSON string value
+ *
+ * @author Alex
  */
 public class StringJSONValue implements JSONValue<String>
 {

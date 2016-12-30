@@ -21,7 +21,10 @@ public class JSONModelParser
     }
 
     /**
-     * Handles -> initial nameless object
+     * Parses a complete nameless JSON object.
+     *
+     * Note: All whitespace is removed before the JSON string is parsed regardless of where the whitespace is located.
+     *          This includes inside quotation marks.
      * @param json    The json string to be parsed
      */
     public static JSONObject parseJSON(String json)
@@ -61,8 +64,8 @@ public class JSONModelParser
      */
     private static JSONValue getNextParsedResult(StringBuilder sb)
     {
-        String s = sb.toString().trim();
-        sb.delete(0, sb.length()).append(s);
+//        String s = sb.toString().trim();
+//        sb.delete(0, sb.length()).append(s);
         if(sb.charAt(0) == cOBJECT_START)
             return parseObject(sb);
         else if(sb.charAt(0) == cARRAY_START)
