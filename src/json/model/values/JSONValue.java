@@ -59,7 +59,7 @@ public interface JSONValue<T>
         if(!isBoolean())
             throw new JSONFormatException(getValue() + " is not a boolean");
 
-        return isBoolean() && ((Boolean) getValue());
+        return ((Boolean) getValue());
     }
 
     /**

@@ -18,5 +18,23 @@ public class NumberJSONValue implements JSONValue<Number>
         return number;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        NumberJSONValue that = (NumberJSONValue) o;
+
+        return number.equals(that.number);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return number.hashCode();
+    }
+
     private Number number;
 }

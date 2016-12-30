@@ -1,6 +1,7 @@
 package json;
 
-import java.util.LinkedList;
+import org.junit.Test;
+
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -13,7 +14,7 @@ public class JSONParserTest
 
     }
 
-    //@Test
+    @Test
     public void singleValuePair()
     {
         String json = JSONHelper.makeJSON("name", "value");

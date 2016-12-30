@@ -18,5 +18,23 @@ public class BooleanJSONValue implements JSONValue<Boolean>
         return value;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        BooleanJSONValue that = (BooleanJSONValue) o;
+
+        return value.equals(that.value);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return value.hashCode();
+    }
+
     private Boolean value;
 }
