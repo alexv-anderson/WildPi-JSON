@@ -20,5 +20,23 @@ public class ArrayJSONValue implements JSONValue<JSONArray>
         return jsonArray;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        ArrayJSONValue that = (ArrayJSONValue) o;
+
+        return jsonArray.equals(that.jsonArray);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return jsonArray.hashCode();
+    }
+
     private JSONArray jsonArray;
 }

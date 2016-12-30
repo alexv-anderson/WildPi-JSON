@@ -28,5 +28,23 @@ class SimpleJSONArray implements JSONArray
         return values;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        SimpleJSONArray that = (SimpleJSONArray) o;
+
+        return values.equals(that.values);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return values.hashCode();
+    }
+
     private List<JSONValue> values;
 }
