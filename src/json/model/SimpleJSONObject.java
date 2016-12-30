@@ -25,5 +25,23 @@ class SimpleJSONObject implements JSONObject
         return pairs;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        SimpleJSONObject that = (SimpleJSONObject) o;
+
+        return pairs.equals(that.pairs);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return pairs.hashCode();
+    }
+
     private List<JSONPair> pairs;
 }
