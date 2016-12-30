@@ -29,6 +29,27 @@ class SimpleJSONPair<T> implements JSONPair<T>
         return jsonValue;
     }
 
+    @Override
+    public boolean equals(Object o)
+    {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+
+        SimpleJSONPair<?> that = (SimpleJSONPair<?>) o;
+
+        if(!name.equals(that.name)) return false;
+        return jsonValue.equals(that.jsonValue);
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = name.hashCode();
+        result = 31 * result + jsonValue.hashCode();
+        return result;
+    }
+
     private String name;
     private JSONValue<T> jsonValue;
 }
