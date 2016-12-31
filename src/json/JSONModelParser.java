@@ -15,7 +15,9 @@ public class JSONModelParser
 {
     public static void main(String[] args)
     {
-        JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1, 2.0, null, true, false], 2 ], object: { name2: value2, name3: value3 } }");
+        //JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1, 2.0, null, true, false], 2 ], object: { name2: value2, name3: value3 } }");
+        //JSONObject jsonObject = JSONModelParser.parseJSON("{ \"name\": value }");
+        JSONObject jsonObject = JSONModelParser.parseJSON("{\"thing\":[]}");
         jsonObject.getMembers().forEach(System.out::println);
         System.out.println("Hello");
     }
@@ -29,17 +31,18 @@ public class JSONModelParser
      */
     public static JSONObject parseJSON(String json)
     {
-        JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
+        //JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
 
         StringBuilder sb = new StringBuilder(json.replaceAll("\\s*", "").trim());
-        sb.deleteCharAt(0);
-        sb.deleteCharAt(sb.length()-1);
+        return parseObject(sb).getValue();
+        //sb.deleteCharAt(0);
+        //sb.deleteCharAt(sb.length()-1);
 
-        while(sb.length() > 0)
-            jsonObject.getMembers().add(parsePair(sb));
+        //while(sb.length() > 0)
+        //    jsonObject.getMembers().add(parsePair(sb));
 
 
-        return jsonObject;
+        //return jsonObject;
     }
 
     /**
@@ -50,7 +53,7 @@ public class JSONModelParser
      */
     private static JSONPair parsePair(StringBuilder sb)
     {
-        String name = sb.substring(0, sb.indexOf(COLON)).trim();
+        String name = sb.substring(1, sb.indexOf(COLON)-1);//.trim();
         JSONValue value = getNextParsedResult(sb.delete(0, sb.indexOf(COLON)+1));
 
         return JSONFactory.getJSONPair(name, value);
@@ -87,12 +90,13 @@ public class JSONModelParser
         JSONArray jsonArray = JSONFactory.getEmptyJSONArray();
 
         JSONValue result;
-        do
+        //do
+        while(sb.length() > 0 && sb.charAt(0) != cARRAY_END)
         {
             result = getNextParsedResult(sb);
             jsonArray.getElements().add(result);
         }
-        while(sb.length() > 0 && sb.charAt(0) != cARRAY_END);
+        //while(sb.length() > 0 && sb.charAt(0) != cARRAY_END);
 
         sb.deleteCharAt(0);
 
@@ -109,23 +113,23 @@ public class JSONModelParser
      */
     private static JSONValue parseValue(StringBuilder sb)
     {
-        int endIndex = getNetTerminalCharIndex(sb);
+        int endIndex = getNextTerminalCharIndex(sb);
         String value = sb.substring(0, endIndex);
         if(sb.charAt(endIndex) == cCOMMA)
             sb.delete(0, endIndex+1);
         else
             sb.delete(0, endIndex);
 
-        if(value.matches("^[0-9]+$"))
+        if(value.matches("^-*[0-9]+$"))
             return new NumberJSONValue(Integer.parseInt(value));
-        if(value.matches("^[0-9]+\\.([0-9]+)?"))
+        if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
             return new NumberJSONValue(Double.parseDouble(value));
         if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
             return new BooleanJSONValue(Boolean.parseBoolean(value));
         if(value.equalsIgnoreCase("null"))
             return new NullJSONValue();
 
-        return new StringJSONValue(value);
+        return new StringJSONValue(value.substring(1, value.length()-1));
     }
 
     /**
@@ -140,12 +144,13 @@ public class JSONModelParser
         JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
 
         JSONPair pair;
-        do
+        //do
+        while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END)
         {
             pair = parsePair(sb);
             jsonObject.getMembers().add(pair);
         }
-        while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END);
+        //while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END);
 
         sb.deleteCharAt(0);
 
@@ -155,7 +160,7 @@ public class JSONModelParser
         return new ObjectJSONValue(jsonObject);
     }
 
-    private static int getNetTerminalCharIndex(StringBuilder sb)
+    private static int getNextTerminalCharIndex(StringBuilder sb)
     {
         int endObjectIndex = sb.indexOf(OBJECT_END);
         int endArrayIndex = sb.indexOf(ARRAY_END);
