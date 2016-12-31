@@ -10,6 +10,17 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class JSONFactoryTest
 {
     @Test
+    public void testEmptyObject()
+    {
+        assertThat("Empty JSON object isn't", JSONFactory.getEmptyJSONObject(), is(new SimpleJSONObject()));
+    }
+    @Test
+    public void testEmptyArray()
+    {
+        assertThat("Empty JSON array isn't", JSONFactory.getEmptyJSONArray(), is(new SimpleJSONArray()));
+    }
+
+    @Test
     public void testPairCreation()
     {
         String name = "name";
@@ -18,5 +29,11 @@ public class JSONFactoryTest
 
         assertThat("JSON pair's name is incorrect", pair.getName(), is(name));
         assertThat("JSON pair's value is incorrect", pair.getValue(), is(value));
+    }
+
+    @Test
+    public void testCreation()
+    {
+        JSONFactory factory = new JSONFactory();
     }
 }

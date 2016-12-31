@@ -11,17 +11,8 @@ import json.model.values.*;
  *
  * @author Alex
  */
-public class JSONModelParser
+public class JSONParser
 {
-    public static void main(String[] args)
-    {
-        //JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1, 2.0, null, true, false], 2 ], object: { name2: value2, name3: value3 } }");
-        //JSONObject jsonObject = JSONModelParser.parseJSON("{ \"name\": value }");
-        JSONObject jsonObject = JSONModelParser.parseJSON("{\"thing\":[]}");
-        //jsonObject.getMembers().forEach(System.out::println);
-        System.out.println("Hello");
-    }
-
     /**
      * Parses a complete nameless JSON object.
      *
@@ -31,18 +22,8 @@ public class JSONModelParser
      */
     public static JSONObject parseJSON(String json)
     {
-        //JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
-
         StringBuilder sb = new StringBuilder(json.replaceAll("\\s*", "").trim());
         return parseObject(sb).getValue();
-        //sb.deleteCharAt(0);
-        //sb.deleteCharAt(sb.length()-1);
-
-        //while(sb.length() > 0)
-        //    jsonObject.getMembers().add(parsePair(sb));
-
-
-        //return jsonObject;
     }
 
     /**
@@ -67,8 +48,6 @@ public class JSONModelParser
      */
     private static JSONValue getNextParsedResult(StringBuilder sb)
     {
-//        String s = sb.toString().trim();
-//        sb.delete(0, sb.length()).append(s);
         if(sb.charAt(0) == cOBJECT_START)
             return parseObject(sb);
         else if(sb.charAt(0) == cARRAY_START)
@@ -90,17 +69,15 @@ public class JSONModelParser
         JSONArray jsonArray = JSONFactory.getEmptyJSONArray();
 
         JSONValue result;
-        //do
-        while(sb.length() > 0 && sb.charAt(0) != cARRAY_END)
+        while(sb.charAt(0) != cARRAY_END)
         {
             result = getNextParsedResult(sb);
             jsonArray.getElements().add(result);
         }
-        //while(sb.length() > 0 && sb.charAt(0) != cARRAY_END);
 
         sb.deleteCharAt(0);
 
-        if(sb.length() > 0 && sb.charAt(0) == cCOMMA)
+        if(sb.charAt(0) == cCOMMA)
             sb.deleteCharAt(0);
 
         return new ArrayJSONValue(jsonArray);
@@ -144,14 +121,11 @@ public class JSONModelParser
         JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
 
         JSONPair pair;
-        //do
-        while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END)
+        while(sb.charAt(0) != cOBJECT_END)
         {
             pair = parsePair(sb);
-            //jsonObject.getMembers().add(pair);
             jsonObject.put(pair);
         }
-        //while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END);
 
         sb.deleteCharAt(0);
 
@@ -167,9 +141,7 @@ public class JSONModelParser
         int endArrayIndex = sb.indexOf(ARRAY_END);
         int endPairIndex = sb.indexOf(COMMA);
 
-        int minIndex = -1;
-        if(endObjectIndex > 0)
-            minIndex = endObjectIndex;
+        int minIndex = endObjectIndex;//-1;
         if(endArrayIndex > 0 && endArrayIndex < minIndex)
             minIndex = endArrayIndex;
         if(endPairIndex > 0 && endPairIndex < minIndex)
