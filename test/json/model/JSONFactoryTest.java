@@ -10,18 +10,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class JSONFactoryTest
 {
     @Test
-    public void testEmptyObject()
-    {
-        assertThat("An empty JSON object should have no members", JSONFactory.getEmptyJSONObject().getMembers().size(), is(0));
-    }
-
-    @Test
-    public void testEmptyArray()
-    {
-        assertThat("An empty JSON array should have no elements", JSONFactory.getEmptyJSONArray().getElements().size(), is(0));
-    }
-
-    @Test
     public void testPairCreation()
     {
         String name = "name";

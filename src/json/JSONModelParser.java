@@ -18,7 +18,7 @@ public class JSONModelParser
         //JSONObject jsonObject = JSONModelParser.parseJSON("{ name: value, array: [ [1, 2.0, null, true, false], 2 ], object: { name2: value2, name3: value3 } }");
         //JSONObject jsonObject = JSONModelParser.parseJSON("{ \"name\": value }");
         JSONObject jsonObject = JSONModelParser.parseJSON("{\"thing\":[]}");
-        jsonObject.getMembers().forEach(System.out::println);
+        //jsonObject.getMembers().forEach(System.out::println);
         System.out.println("Hello");
     }
 
@@ -148,7 +148,8 @@ public class JSONModelParser
         while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END)
         {
             pair = parsePair(sb);
-            jsonObject.getMembers().add(pair);
+            //jsonObject.getMembers().add(pair);
+            jsonObject.put(pair);
         }
         //while(sb.length() > 0 && sb.charAt(0) != cOBJECT_END);
 

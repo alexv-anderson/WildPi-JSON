@@ -15,7 +15,7 @@ public class ObjectJSONValueTest extends JSONValueTestBase
     public void setupValue()
     {
         value = JSONFactory.getEmptyJSONObject();
-        value.getMembers().add(JSONFactory.getJSONPair("name", new NumberJSONValue(1)));
+        value.put("name", new NumberJSONValue(1));
     }
 
     @Override
@@ -40,13 +40,13 @@ public class ObjectJSONValueTest extends JSONValueTestBase
     public void testEqualityAndHashcode()
     {
         JSONObject o1 = JSONFactory.getEmptyJSONObject();
-        o1.getMembers().add(JSONFactory.getJSONPair("name", new NumberJSONValue(1)));
+        o1.put("name", new NumberJSONValue(1));
         JSONObject o2 = JSONFactory.getEmptyJSONObject();
-        o2.getMembers().add(JSONFactory.getJSONPair("name", new NumberJSONValue(1)));
+        o2.put("name", new NumberJSONValue(1));
         JSONObject p1 = JSONFactory.getEmptyJSONObject();
-        p1.getMembers().add(JSONFactory.getJSONPair("hello", new NumberJSONValue(1)));
+        p1.put("hello", new NumberJSONValue(1));
         JSONObject p2 = JSONFactory.getEmptyJSONObject();
-        p2.getMembers().add(JSONFactory.getJSONPair("name", new NumberJSONValue(2)));
+        p2.put("name", new NumberJSONValue(2));
 
         TestHelper.equalityAndHashcodeChecker(new ObjectJSONValue(o1), new ObjectJSONValue(o2), new ObjectJSONValue(p1), new ObjectJSONValue(p2));
     }

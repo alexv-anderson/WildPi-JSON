@@ -1,6 +1,8 @@
 package json.model;
 
-import java.util.LinkedList;
+import json.model.values.JSONValue;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -12,17 +14,31 @@ class SimpleJSONObject implements JSONObject
 {
     public SimpleJSONObject()
     {
-        this.pairs = new LinkedList<>();
+        this.nameToValueMap = new HashMap<>();
     }
     public SimpleJSONObject(List<JSONPair> pairs)
     {
-        this.pairs = new LinkedList<>(pairs);
+        this.nameToValueMap = new HashMap<>();
+
+        pairs.forEach(this::put);
     }
 
     @Override
-    public List<JSONPair> getMembers()
+    public void put(JSONPair pair)
     {
-        return pairs;
+        put(pair.getName(), pair.getValue());
+    }
+
+    @Override
+    public void put(String name, JSONValue value)
+    {
+        nameToValueMap.put(name, value);
+    }
+
+    @Override
+    public JSONValue get(String name)
+    {
+        return nameToValueMap.get(name);
     }
 
     @Override
@@ -33,15 +49,15 @@ class SimpleJSONObject implements JSONObject
 
         SimpleJSONObject that = (SimpleJSONObject) o;
 
-        return pairs.equals(that.pairs);
+        return nameToValueMap.equals(that.nameToValueMap);
 
     }
 
     @Override
     public int hashCode()
     {
-        return pairs.hashCode();
+        return nameToValueMap.hashCode();
     }
 
-    private List<JSONPair> pairs;
+    private HashMap<String, JSONValue> nameToValueMap;
 }

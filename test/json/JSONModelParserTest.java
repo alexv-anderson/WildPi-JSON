@@ -3,7 +3,6 @@ package json;
 import json.model.JSONArray;
 import json.model.JSONFactory;
 import json.model.JSONObject;
-import json.model.JSONPair;
 import json.model.values.*;
 import org.junit.Test;
 
@@ -48,11 +47,10 @@ public class JSONModelParserTest
     {
         JSONObject jObject = JSONModelParser.parseJSON("{ \"name\": null }");
 
-        assertThat("Object should only have a single member", jObject.getMembers().size(), is(1));
-        JSONPair pair = jObject.getMembers().get(0);
-        assertThat("Incorrect name for pair", pair.getName(), is("name"));
-        assertThat("Value should be a NumberJSONValue", pair.getValue(), is(instanceOf(NullJSONValue.class)));
-        assertThat("Value should not change", pair.getValue().getValue(), is(nullValue()));
+        JSONValue parsedValue = jObject.get("name");
+        assertThat("Name: \"name\" was not found in the object", parsedValue, is(notNullValue()));
+        assertThat("Value should be a NullJSONValue", parsedValue, is(instanceOf(NullJSONValue.class)));
+        assertThat("Value should not change", parsedValue.getValue(), is(nullValue()));
     }
     @Test
     public void parseSingleString()
@@ -90,17 +88,16 @@ public class JSONModelParserTest
     {
         String json = "{ \"name\": { \"name2\": 1 } }";
         JSONObject jObject = JSONFactory.getEmptyJSONObject();
-        jObject.getMembers().add(JSONFactory.getJSONPair("name2", new NumberJSONValue(1)));
+        jObject.put("name2", new NumberJSONValue(1));
 
         testSingleParse(JSONModelParser.parseJSON(json), "name", ObjectJSONValue.class, jObject);
     }
 
     private void testSingleParse(JSONObject jObject, String name, Class valueClass, Object value)
     {
-        assertThat("Object should only have a single member", jObject.getMembers().size(), is(1));
-        JSONPair pair = jObject.getMembers().get(0);
-        assertThat("Incorrect name for pair", pair.getName(), is(name));
-        assertThat("Value should be a NumberJSONValue", pair.getValue(), is(instanceOf(valueClass)));
-        assertThat("Value should not change", pair.getValue().getValue(), is(value));
+        JSONValue parsedValue = jObject.get(name);
+        assertThat("Name: \"" + name + "\" was not found in the object", parsedValue, is(notNullValue()));
+        assertThat("Value should be a " + valueClass.getName(), parsedValue, is(instanceOf(valueClass)));
+        assertThat("Value should not change", parsedValue.getValue(), is(value));
     }
 }
