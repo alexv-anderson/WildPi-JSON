@@ -88,18 +88,18 @@ public class Parser
 
             if(isEscaped)
             {
-                sb.append(currChar);
+                //sb.append(currChar);
                 isEscaped = false;
-                continue;
+                //continue;
             }
 
-            if(currChar == ESCAPE)
+            else if(currChar == ESCAPE)
             {
                 isEscaped = true;
-                continue;
+                //continue;
             }
 
-            if(currChar == DOUBLE_QUOTE)
+            else if(currChar == DOUBLE_QUOTE)
                 return new ValuePack<>(i, new SimpleJSONString(sb.toString()));
 
             sb.append(currChar);
@@ -109,27 +109,34 @@ public class Parser
     }
     private static ValuePack parseValue(String s)
     {
-        switch(s.charAt(0))
+        for(int i = 0; i < s.length(); i++)
         {
-            case DOUBLE_QUOTE:
-                return parseString(s.substring(1));
-            case OBJECT_START:
-                return parseObject(s.substring(1));
-            case ARRAY_START:
-                return parseArray(s.substring(1));
-            default:
-                int endIndex = getNextTerminalCharIndex(s);
-                String value = s.substring(0, endIndex);
+            switch(s.charAt(i))
+            {
+                case SPACE:
+                    break;
+                case DOUBLE_QUOTE:
+                    return parseString(s.substring(i+1));
+                case OBJECT_START:
+                    return parseObject(s.substring(i+1));
+                case ARRAY_START:
+                    return parseArray(s.substring(i+1));
+                default:
+                    int endIndex = getNextTerminalCharIndex(s);
+                    String value = s.substring(0, endIndex).trim();
 
-                if(value.matches("^-*[0-9]+$"))
-                    return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
-                if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
-                    return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
-                if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
-                    return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));
-                //if(value.equalsIgnoreCase("null"))
-                return new ValuePack<>(endIndex, new SimpleJSONNull());
+                    if(value.matches("^-*[0-9]+$"))
+                        return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
+                    if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
+                        return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
+                    if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+                        return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));
+                    //if(value.equalsIgnoreCase("null"))
+                    return new ValuePack<>(endIndex, new SimpleJSONNull());
+            }
         }
+
+        throw new IllegalArgumentException("Improperly formed JSON value");
     }
 
     private static int getNextTerminalCharIndex(String s)

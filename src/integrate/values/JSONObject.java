@@ -11,6 +11,7 @@ public interface JSONObject extends JSONValue
     public JSONLong getLong(String key);
     public JSONDouble getDouble(String key);
     public JSONBoolean getBoolean(String key);
+    public boolean isNull(String key);
 
     public void put(String key, JSONValue value);
     public void put(String key, JSONObject value);

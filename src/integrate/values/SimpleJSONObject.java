@@ -45,6 +45,12 @@ public class SimpleJSONObject implements JSONObject
     }
 
     @Override
+    public boolean isNull(String key)
+    {
+        return valueMap.get(key) instanceof JSONNull;
+    }
+
+    @Override
     public void put(String key, JSONValue value)
     {
         valueMap.put(key, value);
