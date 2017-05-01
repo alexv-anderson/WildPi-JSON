@@ -67,7 +67,7 @@ public class Parser
         {
             char currChar = s.charAt(i);
 
-            if(currChar == SPACE)
+            if(currChar == SPACE || currChar == COMMA)
                 continue;
 
             if(currChar == ARRAY_END)
@@ -121,12 +121,12 @@ public class Parser
                 case DOUBLE_QUOTE:
                     return parseString(s, i+1);
                 case OBJECT_START:
-                    return parseObject(s, i);
+                    return parseObject(s, i+1);
                 case ARRAY_START:
                     return parseArray(s, i+1);
                 default:
                     int endIndex = getNextTerminalCharIndex(s, i);
-                    String value = s.substring(i, endIndex).trim();
+                    String value = s.substring(i, endIndex+1).trim();
 
                     if(value.matches("^-*[0-9]+$"))
                         return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
@@ -146,7 +146,7 @@ public class Parser
     {
         int endObjectIndex = s.indexOf(OBJECT_END, fromIndex)-1;
         int endArrayIndex = s.indexOf(ARRAY_END, fromIndex)-1;
-        int endPairIndex = s.indexOf(COMMA, fromIndex);
+        int endPairIndex = s.indexOf(COMMA, fromIndex)-1;
 
         int minIndex = endObjectIndex;//-1;
         if(endArrayIndex > 0 && endArrayIndex < minIndex)
