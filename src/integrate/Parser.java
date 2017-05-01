@@ -16,17 +16,17 @@ public class Parser
 
     public static JSONObject parse(String s)
     {
-        return parseObject(s).getValue();
+        return parseObject(s, 0).getValue();
     }
 
-    private static ValuePack<JSONObject> parseObject(String s)
+    private static ValuePack<JSONObject> parseObject(String s, int fromIndex)
     {
         JSONObject object = new SimpleJSONObject();
 
         StringBuilder key = new StringBuilder();
         //boolean collectingKey = false;
         boolean isInString = false;
-        for(int i = 0; i < s.length(); i++)
+        for(int i = fromIndex; i < s.length(); i++)
         {
             char curChar = s.charAt(i);
 
@@ -40,9 +40,9 @@ public class Parser
                     //collectingKey = false;
                     if(isInString)
                         break;
-                    ValuePack pack = parseValue(s.substring(i+1));
+                    ValuePack pack = parseValue(s, i+1);
                     object.put(key.toString(), pack.getValue());
-                    i += pack.getEndIndex();
+                    i = pack.getEndIndex();
                     break;
                 case DOUBLE_QUOTE:
                     //if(collectingKey)
@@ -59,30 +59,33 @@ public class Parser
 
         throw new IllegalArgumentException("Improperly formed JSON object");
     }
-    private static ValuePack<JSONArray> parseArray(String s)
+    private static ValuePack<JSONArray> parseArray(String s, int fromIndex)
     {
         JSONArray array = new SimpleJSONArray();
 
-        for(int i = 0; i < s.length(); i++)
+        for(int i = fromIndex; i < s.length(); i++)
         {
             char currChar = s.charAt(i);
+
+            if(currChar == SPACE)
+                continue;
 
             if(currChar == ARRAY_END)
                 return new ValuePack<>(i, array);
 
-            ValuePack pack = parseValue(s.substring(1));
+            ValuePack pack = parseValue(s, i);
             array.addJSONValue(pack.getValue());
             i = pack.getEndIndex();
         }
 
         throw new IllegalArgumentException("Improperly formed JSON array");
     }
-    private static ValuePack<JSONString> parseString(String s)
+    private static ValuePack<JSONString> parseString(String s, int fromIndex)
     {
         StringBuilder sb = new StringBuilder();
 
         boolean isEscaped = false;
-        for(int i = 0; i < s.length(); i++)
+        for(int i = fromIndex; i < s.length(); i++)
         {
             char currChar = s.charAt(i);
 
@@ -107,23 +110,23 @@ public class Parser
 
         throw new IllegalArgumentException("Improperly formatted JSON string value");
     }
-    private static ValuePack parseValue(String s)
+    private static ValuePack parseValue(String s, int fromIndex)
     {
-        for(int i = 0; i < s.length(); i++)
+        for(int i = fromIndex; i < s.length(); i++)
         {
             switch(s.charAt(i))
             {
                 case SPACE:
                     break;
                 case DOUBLE_QUOTE:
-                    return parseString(s.substring(i+1));
+                    return parseString(s, i+1);
                 case OBJECT_START:
-                    return parseObject(s.substring(i+1));
+                    return parseObject(s, i);
                 case ARRAY_START:
-                    return parseArray(s.substring(i+1));
+                    return parseArray(s, i+1);
                 default:
-                    int endIndex = getNextTerminalCharIndex(s);
-                    String value = s.substring(0, endIndex).trim();
+                    int endIndex = getNextTerminalCharIndex(s, i);
+                    String value = s.substring(i, endIndex).trim();
 
                     if(value.matches("^-*[0-9]+$"))
                         return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
@@ -131,19 +134,19 @@ public class Parser
                         return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
                     if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
                         return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));
-                    //if(value.equalsIgnoreCase("null"))
-                    return new ValuePack<>(endIndex, new SimpleJSONNull());
+                    if(value.equalsIgnoreCase("null"))
+                        return new ValuePack<>(endIndex, new SimpleJSONNull());
             }
         }
 
         throw new IllegalArgumentException("Improperly formed JSON value");
     }
 
-    private static int getNextTerminalCharIndex(String s)
+    private static int getNextTerminalCharIndex(String s, int fromIndex)
     {
-        int endObjectIndex = s.indexOf(OBJECT_END);
-        int endArrayIndex = s.indexOf(ARRAY_END);
-        int endPairIndex = s.indexOf(COMMA);
+        int endObjectIndex = s.indexOf(OBJECT_END, fromIndex)-1;
+        int endArrayIndex = s.indexOf(ARRAY_END, fromIndex)-1;
+        int endPairIndex = s.indexOf(COMMA, fromIndex);
 
         int minIndex = endObjectIndex;//-1;
         if(endArrayIndex > 0 && endArrayIndex < minIndex)

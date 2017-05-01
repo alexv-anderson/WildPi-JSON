@@ -13,5 +13,5 @@ public interface JSONArray extends JSONValue
     public JSONLong getLongAt(int index);
     public JSONDouble getDoubleAt(int index);
     public JSONBoolean getBooleanAt(int index);
-    public JSONNull getNullAt(int index);
+    public boolean isNullAt(int index);
 }

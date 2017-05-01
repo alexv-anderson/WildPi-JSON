@@ -51,9 +51,9 @@ public class SimpleJSONArray implements JSONArray
     }
 
     @Override
-    public JSONNull getNullAt(int index)
+    public boolean isNullAt(int index)
     {
-        return (JSONNull) values.get(index);
+        return values.get(index) instanceof JSONNull;
     }
 
     private List<JSONValue> values = new ArrayList<>();
