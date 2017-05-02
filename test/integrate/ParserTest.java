@@ -74,11 +74,13 @@ public class ParserTest
     @Test
     public void testString()
     {
-        String key = "greeting", value = "Allow me to say, \\\"hello, JSON\\\"";
-        String json = " { \"" + key + "\" : \"" + value + "\" } ";
+        String key = "greeting",
+                jsonFormat = "Allow me to say, \\\"hello, JSON\\\"",
+                parsedFormat = "Allow me to say, \"hello, JSON\"";
+        String json = " { \"" + key + "\" : \"" + jsonFormat + "\" } ";
 
         JSONObject object = Parser.parse(json);
-        assertThat("Did not correctly parse string value", object.getString(key).toString(), is(value));
+        assertThat("Did not correctly parse string value", object.getString(key).toString(), is(parsedFormat));
     }
 
     //region Numbers

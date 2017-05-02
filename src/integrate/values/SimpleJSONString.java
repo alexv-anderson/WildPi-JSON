@@ -19,7 +19,7 @@ public class SimpleJSONString extends AbstractSimpleJSONValue<String> implements
     @Override
     public String serialize()
     {
-        return "\"" + value + "\"";
+        return "\"" + value.replace("\"", "\\\"") + "\"";
     }
 
     @Override

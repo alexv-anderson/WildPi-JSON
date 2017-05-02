@@ -82,18 +82,27 @@ public class Parser
         {
             char currChar = s.charAt(i);
 
-            if(isEscaped)
+            if(currChar == ESCAPE)
             {
-                //sb.append(currChar);
-                isEscaped = false;
-                //continue;
+                i++;
+                if(i >= s.length())
+                    break;
+
+                currChar = s.charAt(i);
             }
 
-            else if(currChar == ESCAPE)
-            {
-                isEscaped = true;
-                //continue;
-            }
+//            if(isEscaped)
+//            {
+//                //sb.append(currChar);
+//                isEscaped = false;
+//                //continue;
+//            }
+//
+//            else if(currChar == ESCAPE)
+//            {
+//                isEscaped = true;
+//                //continue;
+//            }
 
             else if(currChar == DOUBLE_QUOTE)
                 return new ValuePack<>(i, new SimpleJSONString(sb.toString()));
@@ -123,7 +132,8 @@ public class Parser
 
                     if(value.matches("^-*[0-9]+$"))
                         return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
-                    if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
+                    //if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
+                    if(value.matches("^-*[0-9]+\\.([0-9]+)?[Ee]*-*[0-9]*"))
                         return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
                     if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
                         return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));

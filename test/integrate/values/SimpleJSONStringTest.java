@@ -12,17 +12,16 @@ public class SimpleJSONStringTest
     {
         String s = "hello \" hello";
         JSONString jsonString = new SimpleJSONString(s);
-
         assertThat("Did not preserve string", jsonString.toString(), is(s));
     }
 
     @Test
     public void testSerialize()
     {
-        String s = "hello \" hello";
-        JSONString jsonString = new SimpleJSONString(s);
+        String value = "hello \" hello", jsonValue = "\"hello \\\" hello\"";
+        JSONString jsonString = new SimpleJSONString(value);
 
-        assertThat("Did not correctly serialize JSON string", jsonString.serialize(), is("\"" + s + "\""));
+        assertThat("Did not correctly serialize JSON string", jsonString.serialize(), is(jsonValue));
     }
 
     @Test
