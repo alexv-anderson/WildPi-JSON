@@ -15,6 +15,12 @@ public class SimpleJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> im
     }
 
     @Override
+    public void addJSONValueAt(JSONValue value, int index)
+    {
+        values.add(index, value);
+    }
+
+    @Override
     public JSONObject getObjectAt(int index)
     {
         return (JSONObject) values.get(index);
@@ -54,6 +60,12 @@ public class SimpleJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> im
     public boolean isNullAt(int index)
     {
         return values.get(index) instanceof JSONNull;
+    }
+
+    @Override
+    public int size()
+    {
+        return values.size();
     }
 
     @Override

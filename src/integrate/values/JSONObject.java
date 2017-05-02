@@ -1,5 +1,7 @@
 package integrate.values;
 
+import java.util.Set;
+
 /**
  * Created by Alex on 4/27/2017.
  */
@@ -12,6 +14,8 @@ public interface JSONObject extends JSONValue
     public JSONDouble getDouble(String key);
     public JSONBoolean getBoolean(String key);
     public boolean isNull(String key);
+
+    public Set<String> getKeySet();
 
     public void put(String key, JSONValue value);
     public void put(String key, JSONObject value);

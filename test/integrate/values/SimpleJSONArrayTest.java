@@ -11,6 +11,29 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class SimpleJSONArrayTest
 {
     @Test
+    public void testSize()
+    {
+        JSONArray array = new SimpleJSONArray();
+        array.addJSONValue(new SimpleJSONNull());
+        array.addJSONValue(new SimpleJSONNull());
+
+        assertThat("Incorrect array size", array.size(), is(2));
+    }
+
+    @Test
+    public void testInsert()
+    {
+        JSONBoolean value = new SimpleJSONBoolean(true);
+        JSONArray array = new SimpleJSONArray();
+        array.addJSONValue(new SimpleJSONNull());
+        array.addJSONValue(new SimpleJSONNull());
+        array.addJSONValueAt(value, 1);
+
+        assertThat("Incorrect insertion of value into array", array.getBooleanAt(1), is(value));
+    }
+
+    //region Add and Retrieve
+    @Test
     public void testObject()
     {
         JSONObject object = new SimpleJSONObject();
@@ -79,6 +102,7 @@ public class SimpleJSONArrayTest
 
         assertThat("Should contain JSON null at zero", array.isNullAt(0));
     }
+    //endregion
 
     //region Serialization
     @Test

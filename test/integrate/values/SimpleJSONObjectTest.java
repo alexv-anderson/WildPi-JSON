@@ -3,13 +3,31 @@ package integrate.values;
 import org.junit.Test;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class SimpleJSONObjectTest
 {
+    @Test
+    public void testKeySet()
+    {
+        Set<String> keys = new HashSet<>();
+        keys.add("key1");
+        keys.add("key2");
+        keys.add("key3");
+
+        JSONObject object = new SimpleJSONObject();
+        for(String key : keys)
+            object.put(key, new SimpleJSONNull());
+
+        assertThat("Incorrect key set returned by object", object.getKeySet(), is(keys));
+    }
+
+    //region Add and Retrieve
     @Test
     public void testObject()
     {
@@ -80,6 +98,7 @@ public class SimpleJSONObjectTest
 
         assertThat("\"key\" should be mapped to a JSON long", outerObject.isNull("key"));
     }
+    //endregion
 
     //region Serialization
     @Test

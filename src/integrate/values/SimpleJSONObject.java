@@ -2,6 +2,7 @@ package integrate.values;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Alex on 4/29/2017.
@@ -48,6 +49,12 @@ public class SimpleJSONObject extends AbstractSimpleJSONValue<Map<String, JSONVa
     public boolean isNull(String key)
     {
         return valueMap.get(key) instanceof JSONNull;
+    }
+
+    @Override
+    public Set<String> getKeySet()
+    {
+        return valueMap.keySet();
     }
 
     @Override
