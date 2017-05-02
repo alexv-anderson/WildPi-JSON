@@ -7,13 +7,6 @@ import integrate.values.*;
  */
 public class Parser
 {
-    public static void main(String[] args)
-    {
-        String jsonString = "{\"name\":\"value\\\"value\"}";
-        System.out.println(jsonString);
-        System.out.println(parse(jsonString).getString("name"));
-    }
-
     public static JSONObject parse(String s)
     {
         return parseObject(s, 0).getValue();

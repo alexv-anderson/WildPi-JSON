@@ -5,4 +5,9 @@ package integrate.values;
  */
 public class SimpleJSONNull implements JSONNull
 {
+    @Override
+    public String serialize()
+    {
+        return "null";
+    }
 }

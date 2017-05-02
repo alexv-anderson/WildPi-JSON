@@ -3,7 +3,7 @@ package integrate.values;
 /**
  * Created by Alex on 4/29/2017.
  */
-public class SimpleJSONString implements JSONString
+public class SimpleJSONString extends AbstractSimpleJSONValue<String> implements JSONString
 {
     public SimpleJSONString(String value)
     {
@@ -12,6 +12,18 @@ public class SimpleJSONString implements JSONString
 
     @Override
     public String toString()
+    {
+        return value;
+    }
+
+    @Override
+    public String serialize()
+    {
+        return "\"" + value + "\"";
+    }
+
+    @Override
+    protected String getValue()
     {
         return value;
     }

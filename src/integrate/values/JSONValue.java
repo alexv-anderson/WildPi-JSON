@@ -5,4 +5,5 @@ package integrate.values;
  */
 public interface JSONValue
 {
+    public String serialize();
 }

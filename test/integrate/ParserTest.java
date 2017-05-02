@@ -6,9 +6,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-/**
- * Created by Alex on 4/29/2017.
- */
 public class ParserTest
 {
     //region Complex

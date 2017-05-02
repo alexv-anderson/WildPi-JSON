@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Alex on 4/29/2017.
  */
-public class SimpleJSONArray implements JSONArray
+public class SimpleJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
 {
     @Override
     public void addJSONValue(JSONValue value)
@@ -54,6 +54,30 @@ public class SimpleJSONArray implements JSONArray
     public boolean isNullAt(int index)
     {
         return values.get(index) instanceof JSONNull;
+    }
+
+    @Override
+    public String serialize()
+    {
+        StringBuilder sb = new StringBuilder("[");
+
+        for(int i = 0; i < values.size(); i++)
+        {
+            if(i > 0)
+                sb.append(",");
+
+            sb.append(values.get(i).serialize());
+        }
+
+        sb.append("]");
+
+        return sb.toString();
+    }
+
+    @Override
+    protected List<JSONValue> getValue()
+    {
+        return values;
     }
 
     private List<JSONValue> values = new ArrayList<>();

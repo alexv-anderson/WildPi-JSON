@@ -6,7 +6,7 @@ import java.util.Map;
 /**
  * Created by Alex on 4/29/2017.
  */
-public class SimpleJSONObject implements JSONObject
+public class SimpleJSONObject extends AbstractSimpleJSONValue<Map<String, JSONValue>> implements JSONObject
 {
     @Override
     public JSONObject getObject(String key)
@@ -96,6 +96,36 @@ public class SimpleJSONObject implements JSONObject
     public void put(String key, JSONNull value)
     {
         valueMap.put(key, value);
+    }
+
+    @Override
+    public String serialize()
+    {
+        StringBuilder sb = new StringBuilder("{");
+
+        boolean isFirst = true;
+        for(Map.Entry<String, JSONValue> entry : valueMap.entrySet())
+        {
+            if(!isFirst)
+                sb.append(",");
+            else
+                isFirst = false;
+
+            sb.append("\"");
+            sb.append(entry.getKey());
+            sb.append("\":");
+            sb.append(entry.getValue().serialize());
+        }
+
+        sb.append("}");
+
+        return sb.toString();
+    }
+
+    @Override
+    protected Map<String, JSONValue> getValue()
+    {
+        return valueMap;
     }
 
     private Map<String, JSONValue> valueMap = new HashMap<>();

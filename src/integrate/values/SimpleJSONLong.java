@@ -3,7 +3,7 @@ package integrate.values;
 /**
  * Created by Alex on 4/29/2017.
  */
-public class SimpleJSONLong implements JSONLong
+public class SimpleJSONLong extends AbstractSimpleJSONValue<Long> implements JSONLong
 {
     public SimpleJSONLong(long value)
     {
@@ -20,6 +20,18 @@ public class SimpleJSONLong implements JSONLong
     public int toInt()
     {
         return (int) value;
+    }
+
+    @Override
+    public String serialize()
+    {
+        return Long.toString(value);
+    }
+
+    @Override
+    protected Long getValue()
+    {
+        return value;
     }
 
     private long value;
