@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class JSONParserTest
+public class JSONJSONParserTest
 {
     @Test
     public void parseEmptyObject()

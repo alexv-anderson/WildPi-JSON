@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ParserAndSerializationTest
+public class JSONParserAndSerializationTest
 {
     @Test
     public void testObject()
@@ -14,7 +14,7 @@ public class ParserAndSerializationTest
         JSONObject originalObject = new SimpleJSONObject();
         originalObject.put("key", new SimpleJSONNull());
 
-        assertThat("Incorrect serialization and parse of object", Parser.parse(originalObject.serialize()), is(originalObject));
+        assertThat("Incorrect serialization and parse of object", JSONParser.parse(originalObject.serialize()), is(originalObject));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class ParserAndSerializationTest
         JSONObject object = new SimpleJSONObject();
         object.put(key, array);
 
-        assertThat("Incorrect serialziation and parse of array", Parser.parse(object.serialize()).getArray(key), is(array));
+        assertThat("Incorrect serialziation and parse of array", JSONParser.parse(object.serialize()).getArray(key), is(array));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class ParserAndSerializationTest
         JSONObject originalObject = new SimpleJSONObject();
         originalObject.put(key, new SimpleJSONString(value));
 
-        assertThat("Incorrect serialization and parse of JSON string", Parser.parse(originalObject.serialize()).getString(key), is(new SimpleJSONString("hello \" hello")));
+        assertThat("Incorrect serialization and parse of JSON string", JSONParser.parse(originalObject.serialize()).getString(key), is(new SimpleJSONString("hello \" hello")));
     }
 
     @Test
@@ -48,8 +48,8 @@ public class ParserAndSerializationTest
         originalObject.put(lKey, lValue);
         originalObject.put(gKey, gValue);
 
-        assertThat("Incorrect serialization and parse of negative double", Parser.parse(originalObject.serialize()).getDouble(lKey), is(lValue));
-        assertThat("Incorrect serialization and parse of positive double", Parser.parse(originalObject.serialize()).getDouble(gKey), is(gValue));
+        assertThat("Incorrect serialization and parse of negative double", JSONParser.parse(originalObject.serialize()).getDouble(lKey), is(lValue));
+        assertThat("Incorrect serialization and parse of positive double", JSONParser.parse(originalObject.serialize()).getDouble(gKey), is(gValue));
     }
 
     @Test
@@ -61,8 +61,8 @@ public class ParserAndSerializationTest
         originalObject.put(lKey, lValue);
         originalObject.put(gKey, gValue);
 
-        assertThat("Incorrect serialization and parse of negative long", Parser.parse(originalObject.serialize()).getLong(lKey), is(lValue));
-        assertThat("Incorrect serialization and parse of positive long", Parser.parse(originalObject.serialize()).getLong(gKey), is(gValue));
+        assertThat("Incorrect serialization and parse of negative long", JSONParser.parse(originalObject.serialize()).getLong(lKey), is(lValue));
+        assertThat("Incorrect serialization and parse of positive long", JSONParser.parse(originalObject.serialize()).getLong(gKey), is(gValue));
     }
 
     @Test
@@ -74,8 +74,8 @@ public class ParserAndSerializationTest
         originalObject.put(tKey, tValue);
         originalObject.put(fKey, fValue);
 
-        assertThat("Incorrect serialization and parse of true boolean", Parser.parse(originalObject.serialize()).getBoolean(tKey), is(tValue));
-        assertThat("Incorrect serialization and parse of false boolean", Parser.parse(originalObject.serialize()).getBoolean(fKey), is(fValue));
+        assertThat("Incorrect serialization and parse of true boolean", JSONParser.parse(originalObject.serialize()).getBoolean(tKey), is(tValue));
+        assertThat("Incorrect serialization and parse of false boolean", JSONParser.parse(originalObject.serialize()).getBoolean(fKey), is(fValue));
     }
 
     @Test
@@ -85,6 +85,6 @@ public class ParserAndSerializationTest
         JSONObject originalObject = new SimpleJSONObject();
         originalObject.put(key, new SimpleJSONNull());
 
-        assertThat("Incorrect serialization and parse of object", Parser.parse(originalObject.serialize()).isNull(key));
+        assertThat("Incorrect serialization and parse of object", JSONParser.parse(originalObject.serialize()).isNull(key));
     }
 }

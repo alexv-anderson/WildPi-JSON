@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ParserTest
+public class JSONParserTest
 {
     //region Complex
     @Test
@@ -15,7 +15,7 @@ public class ParserTest
         String objectKey = "object", valueKey = "value", value = "hello hello",
             json = " { \"" + objectKey + "\" : { \"" + valueKey + "\" : \"" + value + "\" } } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         JSONObject subObject = object.getObject(objectKey);
         assertThat("Did not correctly parse sub-object", subObject.getString(valueKey).toString(), is(value));
     }
@@ -25,7 +25,7 @@ public class ParserTest
     {
         String key = "array", json = "{\"" + key + "\":[32,-32,32.0,-32.0,\"hello, hello\",{\"key\":null},null,true,false,[null]]}";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
 
         assertThat("Did not correctly parse positive whole number in array", object.getArray(key).getLongAt(0).toInt(), is(32));
         assertThat("Did not correctly parse negative whole negative in array", object.getArray(key).getLongAt(1).toInt(), is(-32));
@@ -55,7 +55,7 @@ public class ParserTest
                 "\"string\":\"hello: hello\"" +
                 "}";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
 
         assertThat("Did not correctly parse sub-object in object", object.getObject("subObject").isNull("key"));
         assertThat("Did not correctly parse array in object", object.getArray("array").isNullAt(0));
@@ -79,7 +79,7 @@ public class ParserTest
                 parsedFormat = "Allow me to say, \"hello, JSON\"";
         String json = " { \"" + key + "\" : \"" + jsonFormat + "\" } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse string value", object.getString(key).toString(), is(parsedFormat));
     }
 
@@ -89,7 +89,7 @@ public class ParserTest
     {
         String key = "value", value = "32", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse positive whole number", object.getLong(key).toInt(), is(32));
     }
     @Test
@@ -97,7 +97,7 @@ public class ParserTest
     {
         String key = "value", value = "-32", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse positive whole number", object.getLong(key).toInt(), is(-32));
     }
     @Test
@@ -105,7 +105,7 @@ public class ParserTest
     {
         String key = "value", value = "32.0", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse positive real number", object.getDouble(key).toDouble(), is(32.0));
     }
     @Test
@@ -113,7 +113,7 @@ public class ParserTest
     {
         String key = "value", value = "-32.0", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse positive real number", object.getDouble(key).toDouble(), is(-32.0));
     }
     //endregion
@@ -125,7 +125,7 @@ public class ParserTest
         boolean value = true;
         String key = "value", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse boolean true", object.getBoolean(key).toBoolean(), is(value));
     }
     @Test
@@ -134,7 +134,7 @@ public class ParserTest
         boolean value = false;
         String key = "value", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse boolean false", object.getBoolean(key).toBoolean(), is(value));
     }
     //endregion
@@ -144,7 +144,7 @@ public class ParserTest
     {
         String key = "value", value = "null", json = " { \"" + key + "\" : " + value + " } ";
 
-        JSONObject object = Parser.parse(json);
+        JSONObject object = JSONParser.parse(json);
         assertThat("Did not correctly parse null", object.isNull(key));
     }
     //endregion
