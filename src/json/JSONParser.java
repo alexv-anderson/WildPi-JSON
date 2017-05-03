@@ -1,145 +1,153 @@
 package json;
 
-import json.model.JSONArray;
-import json.model.JSONFactory;
-import json.model.JSONObject;
-import json.model.JSONPair;
-import json.model.values.*;
-
 /**
- * Helper class which parses a string of json
- *
- * @author Alex
+ * Created by Alex on 4/27/2017.
  */
 public class JSONParser
 {
-    /**
-     * Parses a complete nameless JSON object.
-     *
-     * Note: All whitespace is removed before the JSON string is parsed regardless of where the whitespace is located.
-     *          This includes inside quotation marks.
-     * @param json    The json string to be parsed
-     */
-    public static JSONObject parseJSON(String json)
+    public static JSONObject parse(String s)
     {
-        StringBuilder sb = new StringBuilder(json.replaceAll("\\s*", "").trim());
-        return parseObject(sb).getValue();
+        return parseObject(s, 0).getValue();
     }
 
-    /**
-     * Parses a single key value pair. The value may be an object, array, string, or primitive.
-     * The remaining JSON is left in the StringBuilder.
-     * @param sb    The StringBuilder which holds the JSON string which remains to be parsed.
-     * @return  A {@link JSONPair} which encapsulates the json which was parsed.
-     */
-    private static JSONPair parsePair(StringBuilder sb)
+    private static ValuePack<JSONObject> parseObject(String s, int fromIndex)
     {
-        String name = sb.substring(1, sb.indexOf(COLON)-1);//.trim();
-        JSONValue value = getNextParsedResult(sb.delete(0, sb.indexOf(COLON)+1));
+        JSONObject object = new SimpleJSONObject();
 
-        return JSONFactory.getJSONPair(name, value);
-    }
-
-    /**
-     * Parses a single value into a {@link JSONValue}. The value may be an object, array, string, or primitive.
-     * The remaining JSON is left on the StringBuilder.
-     * @param sb    The StringBuilder which holds the JSON string which remains to be parsed.
-     * @return  A {@link JSONValue} which encapsulates the value which was parsed.
-     */
-    private static JSONValue getNextParsedResult(StringBuilder sb)
-    {
-        if(sb.charAt(0) == cOBJECT_START)
-            return parseObject(sb);
-        else if(sb.charAt(0) == cARRAY_START)
-            return parseArray(sb);
-        else
-            return parseValue(sb);
-    }
-
-    /**
-     * Parses a single JSON array. The array may contain objects, arrays, strings, primitives, or a mixture.
-     * The remaining JSON is left on the StringBuilder.
-     * @param sb    The StringBuilder which holds the JSON string which remains to be parsed.
-     * @return  A {@link ArrayJSONValue} which encapsulates the array which was parsed.
-     */
-    private static ArrayJSONValue parseArray(StringBuilder sb)
-    {
-        sb.deleteCharAt(0);
-
-        JSONArray jsonArray = JSONFactory.getEmptyJSONArray();
-
-        JSONValue result;
-        while(sb.charAt(0) != cARRAY_END)
+        StringBuilder key = new StringBuilder();
+        //boolean collectingKey = false;
+        boolean isInString = false;
+        for(int i = fromIndex; i < s.length(); i++)
         {
-            result = getNextParsedResult(sb);
-            jsonArray.getElements().add(result);
+            char curChar = s.charAt(i);
+
+            switch(curChar)
+            {
+                case COMMA:
+                    key.delete(0, key.length());
+                    //collectingKey = true;
+                    break;
+                case COLON:
+                    //collectingKey = false;
+                    if(isInString)
+                        break;
+                    ValuePack pack = parseValue(s, i+1);
+                    object.put(key.toString(), pack.getValue());
+                    i = pack.getEndIndex();
+                    break;
+                case DOUBLE_QUOTE:
+                    //if(collectingKey)
+                        isInString = !isInString;
+                    break;
+                case OBJECT_END:
+                    return new ValuePack<>(i, object);
+                default:
+                    //if(collectingKey && isInString)
+                    if(isInString)
+                        key.append(curChar);
+            }
         }
 
-        sb.deleteCharAt(0);
-
-        if(sb.charAt(0) == cCOMMA)
-            sb.deleteCharAt(0);
-
-        return new ArrayJSONValue(jsonArray);
+        throw new IllegalArgumentException("Improperly formed JSON object");
     }
-
-    /**
-     * Parses a single string, primitive, or null JSON value and leaves the rest on the StringBuilder.
-     * @param sb    The StringBuilder which holds the JSON string which remains to be parsed.
-     * @return  A {@link JSONValue} which encapsulates the value which was parsed.
-     */
-    private static JSONValue parseValue(StringBuilder sb)
+    private static ValuePack<JSONArray> parseArray(String s, int fromIndex)
     {
-        int endIndex = getNextTerminalCharIndex(sb);
-        String value = sb.substring(0, endIndex);
-        if(sb.charAt(endIndex) == cCOMMA)
-            sb.delete(0, endIndex+1);
-        else
-            sb.delete(0, endIndex);
+        JSONArray array = new SimpleJSONArray();
 
-        if(value.matches("^-*[0-9]+$"))
-            return new NumberJSONValue(Integer.parseInt(value));
-        if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
-            return new NumberJSONValue(Double.parseDouble(value));
-        if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
-            return new BooleanJSONValue(Boolean.parseBoolean(value));
-        if(value.equalsIgnoreCase("null"))
-            return new NullJSONValue();
-
-        return new StringJSONValue(value.substring(1, value.length()-1));
-    }
-
-    /**
-     * Parses a single JSON object and leaves the rest on the StringBuilder.
-     * @param sb    The StringBuilder which holds the JSON string which remains to be parsed.
-     * @return  A {@link ObjectJSONValue} which encapsulates the object which was parsed.
-     */
-    private static ObjectJSONValue parseObject(StringBuilder sb)
-    {
-        sb.deleteCharAt(0);
-
-        JSONObject jsonObject = JSONFactory.getEmptyJSONObject();
-
-        JSONPair pair;
-        while(sb.charAt(0) != cOBJECT_END)
+        for(int i = fromIndex; i < s.length(); i++)
         {
-            pair = parsePair(sb);
-            jsonObject.put(pair);
+            char currChar = s.charAt(i);
+
+            if(currChar == SPACE || currChar == COMMA)
+                continue;
+
+            if(currChar == ARRAY_END)
+                return new ValuePack<>(i, array);
+
+            ValuePack pack = parseValue(s, i);
+            array.addJSONValue(pack.getValue());
+            i = pack.getEndIndex();
         }
 
-        sb.deleteCharAt(0);
+        throw new IllegalArgumentException("Improperly formed JSON array");
+    }
+    private static ValuePack<JSONString> parseString(String s, int fromIndex)
+    {
+        StringBuilder sb = new StringBuilder();
 
-        if(sb.length() > 0 && sb.charAt(0) == cCOMMA)
-            sb.deleteCharAt(0);
+        boolean isEscaped = false;
+        for(int i = fromIndex; i < s.length(); i++)
+        {
+            char currChar = s.charAt(i);
 
-        return new ObjectJSONValue(jsonObject);
+            if(currChar == ESCAPE)
+            {
+                i++;
+                if(i >= s.length())
+                    break;
+
+                currChar = s.charAt(i);
+            }
+
+//            if(isEscaped)
+//            {
+//                //sb.append(currChar);
+//                isEscaped = false;
+//                //continue;
+//            }
+//
+//            else if(currChar == ESCAPE)
+//            {
+//                isEscaped = true;
+//                //continue;
+//            }
+
+            else if(currChar == DOUBLE_QUOTE)
+                return new ValuePack<>(i, new SimpleJSONString(sb.toString()));
+
+            sb.append(currChar);
+        }
+
+        throw new IllegalArgumentException("Improperly formatted JSON string value");
+    }
+    private static ValuePack parseValue(String s, int fromIndex)
+    {
+        for(int i = fromIndex; i < s.length(); i++)
+        {
+            switch(s.charAt(i))
+            {
+                case SPACE:
+                    break;
+                case DOUBLE_QUOTE:
+                    return parseString(s, i+1);
+                case OBJECT_START:
+                    return parseObject(s, i+1);
+                case ARRAY_START:
+                    return parseArray(s, i+1);
+                default:
+                    int endIndex = getNextTerminalCharIndex(s, i);
+                    String value = s.substring(i, endIndex+1).trim();
+
+                    if(value.matches("^-*[0-9]+$"))
+                        return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
+                    //if(value.matches("^-*[0-9]+\\.([0-9]+)?"))
+                    if(value.matches("^-*[0-9]+\\.([0-9]+)?[Ee]*-*[0-9]*"))
+                        return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
+                    if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
+                        return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));
+                    if(value.equalsIgnoreCase("null"))
+                        return new ValuePack<>(endIndex, new SimpleJSONNull());
+            }
+        }
+
+        throw new IllegalArgumentException("Improperly formed JSON value");
     }
 
-    private static int getNextTerminalCharIndex(StringBuilder sb)
+    private static int getNextTerminalCharIndex(String s, int fromIndex)
     {
-        int endObjectIndex = sb.indexOf(OBJECT_END);
-        int endArrayIndex = sb.indexOf(ARRAY_END);
-        int endPairIndex = sb.indexOf(COMMA);
+        int endObjectIndex = s.indexOf(OBJECT_END, fromIndex)-1;
+        int endArrayIndex = s.indexOf(ARRAY_END, fromIndex)-1;
+        int endPairIndex = s.indexOf(COMMA, fromIndex)-1;
 
         int minIndex = endObjectIndex;//-1;
         if(endArrayIndex > 0 && endArrayIndex < minIndex)
@@ -150,17 +158,39 @@ public class JSONParser
         return minIndex;
     }
 
-    private static final String OBJECT_START = "{";
-    private static final char cOBJECT_START = OBJECT_START.toCharArray()[0];
-    private static final String OBJECT_END = "}";
-    private static final char cOBJECT_END = OBJECT_END.toCharArray()[0];
-    private static final String ARRAY_START = "[";
-    private static final char cARRAY_START = ARRAY_START.toCharArray()[0];
-    private static final String ARRAY_END = "]";
-    private static final char cARRAY_END = ARRAY_END.toCharArray()[0];
+    private static class ValuePack<V extends JSONValue>
+    {
+        private ValuePack(int endIndex, V value)
+        {
+            this.endIndex = endIndex;
+            this.value = value;
+        }
 
-    private static final String COMMA = ",";
-    private static final char cCOMMA = COMMA.toCharArray()[0];
-    private static final String COLON = ":";
-    private static final char cCOLON = COLON.toCharArray()[0];
+        public int getEndIndex()
+        {
+            return endIndex;
+        }
+
+        public V getValue()
+        {
+            return value;
+        }
+
+        private int endIndex;
+        private V value;
+    }
+
+    private static final char OBJECT_START = '{';
+    private static final char OBJECT_END = '}';
+
+    private static final char ARRAY_START = '[';
+    private static final char ARRAY_END = ']';
+
+    private static final char COLON = ':';
+    private static final char COMMA = ',';
+
+    private static final char ESCAPE = '\\';
+    private static final char DOUBLE_QUOTE = '"';
+
+    private static final char SPACE = ' ';
 }
