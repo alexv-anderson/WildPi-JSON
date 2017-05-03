@@ -64,48 +64,6 @@ public class SimpleJSONObject extends AbstractSimpleJSONValue<Map<String, JSONVa
     }
 
     @Override
-    public void put(String key, JSONObject value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONArray value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONString value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONLong value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONDouble value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONBoolean value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
-    public void put(String key, JSONNull value)
-    {
-        valueMap.put(key, value);
-    }
-
-    @Override
     public String serialize()
     {
         StringBuilder sb = new StringBuilder("{");

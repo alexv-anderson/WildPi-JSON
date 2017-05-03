@@ -18,11 +18,4 @@ public interface JSONObject extends JSONValue
     public Set<String> getKeySet();
 
     public void put(String key, JSONValue value);
-    public void put(String key, JSONObject value);
-    public void put(String key, JSONArray value);
-    public void put(String key, JSONString value);
-    public void put(String key, JSONLong value);
-    public void put(String key, JSONDouble value);
-    public void put(String key, JSONBoolean value);
-    public void put(String key, JSONNull value);
 }
