@@ -1,10 +1,18 @@
 package json;
 
 /**
- * Created by Alex on 5/1/2017.
+ * Helper class which handles equality and hash codes
+ *
+ * @param <V> The type of object which determines the object's overall equality.
+ *
+ * @author Alex
  */
 abstract class AbstractSimpleJSONValue<V>
 {
+    /**
+     * Supplies the value which determines the object's equality
+     * @return The value which determines the object's equality
+     */
     protected abstract V getValue();
 
     @Override

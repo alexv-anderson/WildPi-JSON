@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alex on 4/29/2017.
+ * Standard implementation of {@link JSONArray}
+ *
+ * @author Alex
  */
 public class SimpleJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
 {

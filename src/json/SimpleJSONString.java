@@ -1,7 +1,9 @@
 package json;
 
 /**
- * Created by Alex on 4/29/2017.
+ * Standard implementation of {@link JSONString}
+ *
+ * @author Alex
  */
 public class SimpleJSONString extends AbstractSimpleJSONValue<String> implements JSONString
 {

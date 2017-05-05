@@ -5,7 +5,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by Alex on 4/29/2017.
+ * Standard implementation of {@link JSONObject}
+ *
+ * @author Alex
  */
 public class SimpleJSONObject extends AbstractSimpleJSONValue<Map<String, JSONValue>> implements JSONObject
 {

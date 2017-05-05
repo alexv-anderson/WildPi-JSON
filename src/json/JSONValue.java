@@ -1,9 +1,15 @@
 package json;
 
 /**
- * Created by Alex on 4/29/2017.
+ * Defines methods common to all JSON values
+ *
+ * @author Alex
  */
 public interface JSONValue
 {
+    /**
+     * Supplies the serialized form of the value in valid JSON format
+     * @return JSON format of the value
+     */
     public String serialize();
 }

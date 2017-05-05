@@ -1,7 +1,9 @@
 package json;
 
 /**
- * Created by Alex on 4/29/2017.
+ * Standard implementation of {@link JSONLong}
+ *
+ * @author Alex
  */
 public class SimpleJSONLong extends AbstractSimpleJSONValue<Long> implements JSONLong
 {
