@@ -1,13 +1,15 @@
-package json;
+package json.standard;
+
+import json.JSONDouble;
 
 /**
  * Standard implementation of {@link JSONDouble}
  *
  * @author Alex
  */
-public class SimpleJSONDouble extends AbstractSimpleJSONValue<Double> implements JSONDouble
+public class StandardJSONDouble extends AbstractSimpleJSONValue<Double> implements JSONDouble
 {
-    public SimpleJSONDouble(double value)
+    public StandardJSONDouble(double value)
     {
         this.value = value;
     }

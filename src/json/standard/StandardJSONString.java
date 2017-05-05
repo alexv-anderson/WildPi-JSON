@@ -1,13 +1,15 @@
-package json;
+package json.standard;
+
+import json.JSONString;
 
 /**
  * Standard implementation of {@link JSONString}
  *
  * @author Alex
  */
-public class SimpleJSONString extends AbstractSimpleJSONValue<String> implements JSONString
+public class StandardJSONString extends AbstractSimpleJSONValue<String> implements JSONString
 {
-    public SimpleJSONString(String value)
+    public StandardJSONString(String value)
     {
         this.value = value;
     }

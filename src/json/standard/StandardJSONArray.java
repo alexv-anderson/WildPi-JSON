@@ -1,4 +1,6 @@
-package json;
+package json.standard;
+
+import json.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
  *
  * @author Alex
  */
-public class SimpleJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
+public class StandardJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
 {
     @Override
     public void addJSONValue(JSONValue value)

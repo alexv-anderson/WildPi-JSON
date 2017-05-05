@@ -1,4 +1,4 @@
-package json;
+package json.standard;
 
 /**
  * Helper class which handles equality and hash codes

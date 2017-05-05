@@ -1,6 +1,7 @@
-package json;
+package json.standard;
 
 import json.*;
+import json.standard.*;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class SimpleJSONObjectTest
+public class StandardJSONObjectTest
 {
     @Test
     public void testKeySet()
@@ -21,9 +22,9 @@ public class SimpleJSONObjectTest
         keys.add("key2");
         keys.add("key3");
 
-        JSONObject object = new SimpleJSONObject();
+        JSONObject object = new StandardJSONObject();
         for(String key : keys)
-            object.put(key, new SimpleJSONNull());
+            object.put(key, new StandardJSONNull());
 
         assertThat("Incorrect key set returned by object", object.getKeySet(), is(keys));
     }
@@ -32,9 +33,9 @@ public class SimpleJSONObjectTest
     @Test
     public void testObject()
     {
-        JSONObject innerObject = new SimpleJSONObject();
-        innerObject.put("key", new SimpleJSONNull());
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONObject innerObject = new StandardJSONObject();
+        innerObject.put("key", new StandardJSONNull());
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", innerObject);
 
         assertThat("\"key\" should be mapped to a JSON object", outerObject.getObject("key"), is(innerObject));
@@ -43,9 +44,9 @@ public class SimpleJSONObjectTest
     @Test
     public void testArray()
     {
-        JSONArray array = new SimpleJSONArray();
-        array.addJSONValue(new SimpleJSONNull());
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONArray array = new StandardJSONArray();
+        array.addJSONValue(new StandardJSONNull());
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", array);
 
         assertThat("\"key\" should be mapped to a JSON array", outerObject.getArray("key"), is(array));
@@ -54,8 +55,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testString()
     {
-        JSONString value = new SimpleJSONString("hello \" hello");
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONString value = new StandardJSONString("hello \" hello");
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", value);
 
         assertThat("\"key\" should be mapped to a JSON string", outerObject.getString("key"), is(value));
@@ -64,8 +65,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testDouble()
     {
-        JSONDouble value = new SimpleJSONDouble(Double.MAX_VALUE);
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONDouble value = new StandardJSONDouble(Double.MAX_VALUE);
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", value);
 
         assertThat("\"key\" should be mapped to a JSON double", outerObject.getDouble("key"), is(value));
@@ -74,8 +75,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testLong()
     {
-        JSONLong value = new SimpleJSONLong(Long.MAX_VALUE);
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONLong value = new StandardJSONLong(Long.MAX_VALUE);
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", value);
 
         assertThat("\"key\" should be mapped to a JSON double", outerObject.getLong("key"), is(value));
@@ -84,8 +85,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testBoolean()
     {
-        JSONBoolean value = new SimpleJSONBoolean(true);
-        JSONObject outerObject = new SimpleJSONObject();
+        JSONBoolean value = new StandardJSONBoolean(true);
+        JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", value);
 
         assertThat("\"key\" should be mapped to a JSON long", outerObject.getBoolean("key"), is(value));
@@ -94,8 +95,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testNull()
     {
-        JSONObject outerObject = new SimpleJSONObject();
-        outerObject.put("key", new SimpleJSONNull());
+        JSONObject outerObject = new StandardJSONObject();
+        outerObject.put("key", new StandardJSONNull());
 
         assertThat("\"key\" should be mapped to a JSON long", outerObject.isNull("key"));
     }
@@ -105,7 +106,7 @@ public class SimpleJSONObjectTest
     @Test
     public void testEmptyObject()
     {
-        JSONObject object = new SimpleJSONObject();
+        JSONObject object = new StandardJSONObject();
 
         assertThat("Did not correctly serialize empty object", object.serialize(), is("{}"));
     }
@@ -113,8 +114,8 @@ public class SimpleJSONObjectTest
     @Test
     public void testSinglePairObject()
     {
-        JSONObject object = new SimpleJSONObject();
-        object.put("key", new SimpleJSONNull());
+        JSONObject object = new StandardJSONObject();
+        object.put("key", new StandardJSONNull());
 
         assertThat("Did not correctly serialize single pair object", object.serialize(), is("{\"key\":null}"));
     }
@@ -122,9 +123,9 @@ public class SimpleJSONObjectTest
     @Test
     public void testDualPairObject()
     {
-        JSONObject object = new SimpleJSONObject();
-        object.put("key1", new SimpleJSONNull());
-        object.put("key2", new SimpleJSONNull());
+        JSONObject object = new StandardJSONObject();
+        object.put("key1", new StandardJSONNull());
+        object.put("key2", new StandardJSONNull());
         assertThat("Did not correctly serialize dual pair object", object.serialize(), is("{\"key1\":null,\"key2\":null}"));
     }
     //endregion
@@ -133,10 +134,10 @@ public class SimpleJSONObjectTest
     public void testValue()
     {
         Map<String, JSONValue> map = new HashMap<>();
-        map.put("key1", new SimpleJSONNull());
-        map.put("key2", new SimpleJSONNull());
+        map.put("key1", new StandardJSONNull());
+        map.put("key2", new StandardJSONNull());
 
-        SimpleJSONObject object = new SimpleJSONObject();
+        StandardJSONObject object = new StandardJSONObject();
         for(Map.Entry<String, JSONValue> entry : map.entrySet())
             object.put(entry.getKey(), entry.getValue());
 

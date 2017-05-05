@@ -1,11 +1,13 @@
-package json;
+package json.standard;
+
+import json.JSONNull;
 
 /**
  * Standard implementation of {@link JSONNull}
  *
  * @author Alex
  */
-public class SimpleJSONNull extends AbstractSimpleJSONValue<Object> implements JSONNull
+public class StandardJSONNull extends AbstractSimpleJSONValue<Object> implements JSONNull
 {
     @Override
     public String serialize()

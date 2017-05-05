@@ -1,13 +1,15 @@
-package json;
+package json.standard;
+
+import json.JSONBoolean;
 
 /**
  * Standard implementation of {@link JSONBoolean}
  *
  * @author Alex
  */
-public class SimpleJSONBoolean extends AbstractSimpleJSONValue<Boolean> implements JSONBoolean
+public class StandardJSONBoolean extends AbstractSimpleJSONValue<Boolean> implements JSONBoolean
 {
-    public SimpleJSONBoolean(boolean value)
+    public StandardJSONBoolean(boolean value)
     {
         this.value = value;
     }

@@ -1,4 +1,6 @@
-package json;
+package json.standard;
+
+import json.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Set;
  *
  * @author Alex
  */
-public class SimpleJSONObject extends AbstractSimpleJSONValue<Map<String, JSONValue>> implements JSONObject
+public class StandardJSONObject extends AbstractSimpleJSONValue<Map<String, JSONValue>> implements JSONObject
 {
     @Override
     public JSONObject getObject(String key)

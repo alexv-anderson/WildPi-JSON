@@ -1,6 +1,6 @@
-package json;
+package json.standard;
 
-import json.AbstractSimpleJSONValue;
+import json.standard.AbstractSimpleJSONValue;
 
 public class SimpleJSONValue extends AbstractSimpleJSONValue<Integer>
 {

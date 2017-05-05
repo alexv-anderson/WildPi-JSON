@@ -1,4 +1,4 @@
-package json;
+package json.standard;
 
 import org.junit.Test;
 

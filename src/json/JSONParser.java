@@ -1,5 +1,7 @@
 package json;
 
+import json.standard.*;
+
 /**
  * Helper class which parses a string of JSON into a {@link JSONObject}.
  *
@@ -27,7 +29,7 @@ public class JSONParser
      */
     private static ValuePack<JSONObject> parseObject(String s, int fromIndex) throws JSONFormatException
     {
-        JSONObject object = new SimpleJSONObject();
+        JSONObject object = new StandardJSONObject();
 
         StringBuilder key = new StringBuilder();
         boolean isInString = false;
@@ -70,7 +72,7 @@ public class JSONParser
      */
     private static ValuePack<JSONArray> parseArray(String s, int fromIndex) throws JSONFormatException
     {
-        JSONArray array = new SimpleJSONArray();
+        JSONArray array = new StandardJSONArray();
 
         for(int i = fromIndex; i < s.length(); i++)
         {
@@ -115,7 +117,7 @@ public class JSONParser
             }
 
             else if(currChar == DOUBLE_QUOTE)
-                return new ValuePack<>(i, new SimpleJSONString(sb.toString()));
+                return new ValuePack<>(i, new StandardJSONString(sb.toString()));
 
             sb.append(currChar);
         }
@@ -150,13 +152,13 @@ public class JSONParser
                     String value = s.substring(i, endIndex+1).trim();
 
                     if(value.matches("^-*[0-9]+$"))
-                        return new ValuePack<>(endIndex, new SimpleJSONLong(Long.parseLong(value)));
+                        return new ValuePack<>(endIndex, new StandardJSONLong(Long.parseLong(value)));
                     if(value.matches("^-*[0-9]+\\.([0-9]+)?[Ee]*-*[0-9]*"))
-                        return new ValuePack<>(endIndex, new SimpleJSONDouble(Double.parseDouble(value)));
+                        return new ValuePack<>(endIndex, new StandardJSONDouble(Double.parseDouble(value)));
                     if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))
-                        return new ValuePack<>(endIndex, new SimpleJSONBoolean(Boolean.parseBoolean(value)));
+                        return new ValuePack<>(endIndex, new StandardJSONBoolean(Boolean.parseBoolean(value)));
                     if(value.equalsIgnoreCase("null"))
-                        return new ValuePack<>(endIndex, new SimpleJSONNull());
+                        return new ValuePack<>(endIndex, new StandardJSONNull());
             }
         }
 

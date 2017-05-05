@@ -1,13 +1,15 @@
-package json;
+package json.standard;
+
+import json.JSONLong;
 
 /**
  * Standard implementation of {@link JSONLong}
  *
  * @author Alex
  */
-public class SimpleJSONLong extends AbstractSimpleJSONValue<Long> implements JSONLong
+public class StandardJSONLong extends AbstractSimpleJSONValue<Long> implements JSONLong
 {
-    public SimpleJSONLong(long value)
+    public StandardJSONLong(long value)
     {
         this.value = value;
     }

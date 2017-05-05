@@ -1,5 +1,6 @@
 package json;
 
+import json.standard.*;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -10,8 +11,8 @@ public class JSONParserAndSerializationTest
     @Test
     public void testObject()
     {
-        JSONObject originalObject = new SimpleJSONObject();
-        originalObject.put("key", new SimpleJSONNull());
+        JSONObject originalObject = new StandardJSONObject();
+        originalObject.put("key", new StandardJSONNull());
 
         assertThat("Incorrect serialization and parse of object", JSONParser.parse(originalObject.serialize()), is(originalObject));
     }
@@ -20,9 +21,9 @@ public class JSONParserAndSerializationTest
     public void testArray()
     {
         String key = "key";
-        JSONArray array = new SimpleJSONArray();
-        array.addJSONValue(new SimpleJSONNull());
-        JSONObject object = new SimpleJSONObject();
+        JSONArray array = new StandardJSONArray();
+        array.addJSONValue(new StandardJSONNull());
+        JSONObject object = new StandardJSONObject();
         object.put(key, array);
 
         assertThat("Incorrect serialziation and parse of array", JSONParser.parse(object.serialize()).getArray(key), is(array));
@@ -32,18 +33,18 @@ public class JSONParserAndSerializationTest
     public void testString()
     {
         String key = "key", value = "hello \" hello";
-        JSONObject originalObject = new SimpleJSONObject();
-        originalObject.put(key, new SimpleJSONString(value));
+        JSONObject originalObject = new StandardJSONObject();
+        originalObject.put(key, new StandardJSONString(value));
 
-        assertThat("Incorrect serialization and parse of JSON string", JSONParser.parse(originalObject.serialize()).getString(key), is(new SimpleJSONString("hello \" hello")));
+        assertThat("Incorrect serialization and parse of JSON string", JSONParser.parse(originalObject.serialize()).getString(key), is(new StandardJSONString("hello \" hello")));
     }
 
     @Test
     public void testDouble()
     {
         String lKey = "lessThanKey", gKey = "greaterThanKey";
-        JSONDouble lValue = new SimpleJSONDouble(Double.MIN_VALUE), gValue = new SimpleJSONDouble(Double.MAX_VALUE);
-        JSONObject originalObject = new SimpleJSONObject();
+        JSONDouble lValue = new StandardJSONDouble(Double.MIN_VALUE), gValue = new StandardJSONDouble(Double.MAX_VALUE);
+        JSONObject originalObject = new StandardJSONObject();
         originalObject.put(lKey, lValue);
         originalObject.put(gKey, gValue);
 
@@ -55,8 +56,8 @@ public class JSONParserAndSerializationTest
     public void testLong()
     {
         String lKey = "lessThanKey", gKey = "greaterThanKey";
-        JSONLong lValue = new SimpleJSONLong(Long.MIN_VALUE), gValue = new SimpleJSONLong(Long.MAX_VALUE);
-        JSONObject originalObject = new SimpleJSONObject();
+        JSONLong lValue = new StandardJSONLong(Long.MIN_VALUE), gValue = new StandardJSONLong(Long.MAX_VALUE);
+        JSONObject originalObject = new StandardJSONObject();
         originalObject.put(lKey, lValue);
         originalObject.put(gKey, gValue);
 
@@ -68,8 +69,8 @@ public class JSONParserAndSerializationTest
     public void testBoolean()
     {
         String tKey = "trueKey", fKey = "falseKey";
-        JSONBoolean tValue = new SimpleJSONBoolean(true), fValue  = new SimpleJSONBoolean(false);
-        JSONObject originalObject = new SimpleJSONObject();
+        JSONBoolean tValue = new StandardJSONBoolean(true), fValue  = new StandardJSONBoolean(false);
+        JSONObject originalObject = new StandardJSONObject();
         originalObject.put(tKey, tValue);
         originalObject.put(fKey, fValue);
 
@@ -81,8 +82,8 @@ public class JSONParserAndSerializationTest
     public void testNull()
     {
         String key = "key";
-        JSONObject originalObject = new SimpleJSONObject();
-        originalObject.put(key, new SimpleJSONNull());
+        JSONObject originalObject = new StandardJSONObject();
+        originalObject.put(key, new StandardJSONNull());
 
         assertThat("Incorrect serialization and parse of object", JSONParser.parse(originalObject.serialize()).isNull(key));
     }
