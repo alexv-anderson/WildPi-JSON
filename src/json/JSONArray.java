@@ -2,6 +2,10 @@ package json;
 
 import json.standard.*;
 
+import java.util.Map;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 /**
  * Marks an object that represents a JSON array.
  *
@@ -66,6 +70,18 @@ public interface JSONArray extends JSONValue
         add(new StandardJSONNull());
     }
 
+    /**
+     * Appends the given mapping to the array
+     * @param map         The mapping to insert
+     * @param keyToJSON   Function which transforms a key in the map to a {@link JSONValue}
+     * @param valueToJSON Function which transforms a value in the map to a {@link JSONValue}
+     * @param <K>         The type of keys in the map
+     * @param <V>         The type of values in the map
+     */
+    public default <K, V> void add(Map<K, V> map, Function<K, JSONValue> keyToJSON, Function<V, JSONValue> valueToJSON)
+    {
+        add(JSONMapHelper.jsonifyMap(map, keyToJSON, valueToJSON));
+    }
     //endregion
 
     //region Insert
@@ -132,6 +148,20 @@ public interface JSONArray extends JSONValue
         addAt(new StandardJSONNull(), index);
     }
 
+    /**
+     * Inserts the given mapping at the indicated index
+     * @param map         The mapping to insert
+     * @param index       The index at which the mapping should be inserted
+     * @param keyToJSON   Function which transforms a key in the map to a {@link JSONValue}
+     * @param valueToJSON Function which transforms a value in the map to a {@link JSONValue}
+     * @param <K>         The type of keys in the map
+     * @param <V>         The type of values in the map
+     */
+    public default <K, V> void addAt(Map<K, V> map, int index, Function<K, JSONValue> keyToJSON, Function<V, JSONValue> valueToJSON)
+    {
+        addAt(JSONMapHelper.jsonifyMap(map, keyToJSON, valueToJSON), index);
+    }
+
     //endregion
 
     //region Getters
@@ -189,6 +219,23 @@ public interface JSONArray extends JSONValue
      * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
      */
     public JSONBoolean getBooleanAt(int index) throws ClassCastException, IndexOutOfBoundsException;
+
+    /**
+     * Extracts a mapping of {@link JSONValue}s from the specified index in the array
+     *
+     * @param index      The index from which to extract the mapping
+     * @param getKeyAt   A function which extracts the {@link JSONValue} which is the mapping's key
+     * @param getValueAt A function which extracts the {@link JSONValue} which is the mapping's value
+     * @param <K>        The type of {@link JSONValue} which represents the mapping's keys
+     * @param <V>        The type of {@link JSONValue} which represents the mapping's values
+     * @return A mapping of extracted values
+     * @throws ClassCastException Thrown if the value could not be cast to {@link JSONArray}
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default <K extends JSONValue, V extends JSONValue> Map<K, V> getMapAt(int index, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt) throws ClassCastException, IndexOutOfBoundsException
+    {
+        return JSONMapHelper.extractMap(getArrayAt(index), getKeyAt, getValueAt);
+    }
 
     /**
      * Indicates if the value at the given {@param index} is a {@link JSONNull}

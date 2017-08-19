@@ -2,7 +2,10 @@ package json;
 
 import json.standard.*;
 
+import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * Marks an object that represents a JSON array.
@@ -75,6 +78,21 @@ public interface JSONObject extends JSONValue, ToJSONable
     public JSONBoolean getBoolean(String key) throws ClassCastException;
 
     /**
+     * Extracts a mapping of {@link JSONValue}s from the specified key in the object
+     *
+     * @param key        The key from which to extract the mapping
+     * @param getKeyAt   A function which extracts the {@link JSONValue} which is the mapping's key
+     * @param getValueAt A function which extracts the {@link JSONValue} which is the mapping's value
+     * @param <K>        The type of {@link JSONValue} which represents the mapping's keys
+     * @param <V>        The type of {@link JSONValue} which represents the mapping's values
+     * @return A mapping of extracted values
+     */
+    public default <K extends JSONValue, V extends JSONValue> Map<K, V> getMap(String key, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt)
+    {
+        return JSONMapHelper.extractMap(getArray(key), getKeyAt, getValueAt);
+    }
+
+    /**
      * Indicates if the value at the given {@param key} is a {@link JSONNull}
      * @param key The index of the value
      * @return True if the value is a {@link JSONNull}, otherwise false
@@ -140,6 +158,21 @@ public interface JSONObject extends JSONValue, ToJSONable
     public default void put(String key, String value)
     {
         put(key, new StandardJSONString(value));
+    }
+
+    /**
+     * Inserts a mapping of {@link JSONValue}s into the object under the given key.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key         The key for the map in this object
+     * @param map         The map to be put into this object
+     * @param keyToJSON   Function which transforms a key in the map to a {@link JSONValue}
+     * @param valueToJSON Function which transforms a value in the map to a {@link JSONValue}
+     * @param <K>         The type of keys in the map
+     * @param <V>         The type of values in the map
+     */
+    public default <K, V> void put(String key, Map<K, V> map, Function<K, JSONValue> keyToJSON, Function<V, JSONValue> valueToJSON)
+    {
+        put(key, JSONMapHelper.jsonifyMap(map, keyToJSON, valueToJSON));
     }
 
     /**
