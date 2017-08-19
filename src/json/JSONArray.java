@@ -226,13 +226,13 @@ public interface JSONArray extends JSONValue
      * @param index      The index from which to extract the mapping
      * @param getKeyAt   A function which extracts the {@link JSONValue} which is the mapping's key
      * @param getValueAt A function which extracts the {@link JSONValue} which is the mapping's value
-     * @param <K>        The type of {@link JSONValue} which represents the mapping's keys
-     * @param <V>        The type of {@link JSONValue} which represents the mapping's values
+     * @param <K>        The type of keys in the mapping
+     * @param <V>        The type of values in the mapping
      * @return A mapping of extracted values
      * @throws ClassCastException Thrown if the value could not be cast to {@link JSONArray}
      * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
      */
-    public default <K extends JSONValue, V extends JSONValue> Map<K, V> getMapAt(int index, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt) throws ClassCastException, IndexOutOfBoundsException
+    public default <K, V> Map<K, V> getMapAt(int index, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt) throws ClassCastException, IndexOutOfBoundsException
     {
         return JSONMapHelper.extractMap(getArrayAt(index), getKeyAt, getValueAt);
     }

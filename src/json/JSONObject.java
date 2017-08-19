@@ -83,11 +83,11 @@ public interface JSONObject extends JSONValue, ToJSONable
      * @param key        The key from which to extract the mapping
      * @param getKeyAt   A function which extracts the {@link JSONValue} which is the mapping's key
      * @param getValueAt A function which extracts the {@link JSONValue} which is the mapping's value
-     * @param <K>        The type of {@link JSONValue} which represents the mapping's keys
-     * @param <V>        The type of {@link JSONValue} which represents the mapping's values
+     * @param <K>        The type of keys in the mapping
+     * @param <V>        The type of values in the mapping
      * @return A mapping of extracted values
      */
-    public default <K extends JSONValue, V extends JSONValue> Map<K, V> getMap(String key, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt)
+    public default <K, V> Map<K, V> getMap(String key, BiFunction<JSONObject, String, K> getKeyAt, BiFunction<JSONObject, String, V> getValueAt)
     {
         return JSONMapHelper.extractMap(getArray(key), getKeyAt, getValueAt);
     }
