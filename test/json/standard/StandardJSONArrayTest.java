@@ -1,7 +1,6 @@
 package json.standard;
 
 import json.*;
-import json.standard.*;
 import org.junit.Test;
 
 import java.util.LinkedList;

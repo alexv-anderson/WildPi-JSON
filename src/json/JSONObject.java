@@ -1,5 +1,7 @@
 package json;
 
+import json.standard.*;
+
 import java.util.Set;
 
 /**
@@ -14,7 +16,7 @@ import java.util.Set;
  *
  * @author Alex
  */
-public interface JSONObject extends JSONValue
+public interface JSONObject extends JSONValue, ToJSONable
 {
     //region Getters
 
@@ -79,13 +81,14 @@ public interface JSONObject extends JSONValue
      */
     public boolean isNull(String key);
 
-    //endregion
-
     /**
      * Supplies a set of all the keys in the {@link JSONObject}.
      * @return A set of all the keys
      */
     public Set<String> getKeySet();
+    //endregion
+
+    //region Putters
 
     /**
      * Inserts a new {@param key} and {@link JSONValue} into the the object.
@@ -94,4 +97,66 @@ public interface JSONObject extends JSONValue
      * @param value The value being inserted
      */
     public void put(String key, JSONValue value);
+
+    /**
+     * Inserts a new {@param key} and {@link JSONBoolean} into the the object.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key   The key for the value
+     * @param value The value being inserted
+     */
+    public default void put(String key, boolean value)
+    {
+        put(key, new StandardJSONBoolean(value));
+    }
+
+    /**
+     * Inserts a new {@param key} and {@link JSONDouble} into the the object.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key   The key for the value
+     * @param value The value being inserted
+     */
+    public default void put(String key, double value)
+    {
+        put(key, new StandardJSONDouble(value));
+    }
+
+    /**
+     * Inserts a new {@param key} and {@link JSONLong} into the the object.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key   The key for the value
+     * @param value The value being inserted
+     */
+    public default void put(String key, long value)
+    {
+        put(key, new StandardJSONLong(value));
+    }
+
+    /**
+     * Inserts a new {@param key} and {@link JSONString} into the the object.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key   The key for the value
+     * @param value The value being inserted
+     */
+    public default void put(String key, String value)
+    {
+        put(key, new StandardJSONString(value));
+    }
+
+    /**
+     * Inserts a new {@param key} and {@link JSONNull} into the the object.
+     * If the {@param key} already exists, then the old {@link JSONValue} will be overridden
+     * @param key   The key for the value
+     */
+    public default void putNull(String key)
+    {
+        put(key, new StandardJSONNull());
+    }
+
+    //endregion
+
+    @Override
+    public default JSONObject asJSON()
+    {
+        return this;
+    }
 }

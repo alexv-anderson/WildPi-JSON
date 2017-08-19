@@ -1,5 +1,7 @@
 package json;
 
+import json.standard.*;
+
 /**
  * Marks an object that represents a JSON array.
  *
@@ -12,11 +14,61 @@ package json;
  */
 public interface JSONArray extends JSONValue
 {
+    //region Append
+
     /**
      * Appends the given {@param value} to the array
      * @param value The value to be appended
      */
     public void addJSONValue(JSONValue value);
+
+    /**
+     * Appends the given {@param value} to the array
+     * @param value The value to be appended
+     */
+    public default void addJSONValue(boolean value)
+    {
+        addJSONValue(new StandardJSONBoolean(value));
+    }
+
+    /**
+     * Appends the given {@param value} to the array
+     * @param value The value to be appended
+     */
+    public default void addJSONValue(double value)
+    {
+        addJSONValue(new StandardJSONDouble(value));
+    }
+
+    /**
+     * Appends the given {@param value} to the array
+     * @param value The value to be appended
+     */
+    public default void addJSONValue(long value)
+    {
+        addJSONValue(new StandardJSONLong(value));
+    }
+
+    /**
+     * Appends the given {@param value} to the array
+     * @param value The value to be appended
+     */
+    public default void addJSONValue(String value)
+    {
+        addJSONValue(new StandardJSONString(value));
+    }
+
+    /**
+     * Appends a null to the array
+     */
+    public default void addJSONNull()
+    {
+        addJSONValue(new StandardJSONNull());
+    }
+
+    //endregion
+
+    //region Insert
 
     /**
      * Inserts the given {@param value} at the indicated {@param index}
@@ -25,6 +77,62 @@ public interface JSONArray extends JSONValue
      * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
      */
     public void addJSONValueAt(JSONValue value, int index) throws IndexOutOfBoundsException;
+
+    /**
+     * Inserts the given {@param value} at the indicated {@param index}
+     * @param value The value to be inserted
+     * @param index The index at which the value should be inserted
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default void addJSONValueAt(boolean value, int index) throws IndexOutOfBoundsException
+    {
+        addJSONValueAt(new StandardJSONBoolean(value), index);
+    }
+
+    /**
+     * Inserts the given {@param value} at the indicated {@param index}
+     * @param value The value to be inserted
+     * @param index The index at which the value should be inserted
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default void addJSONValueAt(double value, int index) throws IndexOutOfBoundsException
+    {
+        addJSONValueAt(new StandardJSONDouble(value), index);
+    }
+
+    /**
+     * Inserts the given {@param value} at the indicated {@param index}
+     * @param value The value to be inserted
+     * @param index The index at which the value should be inserted
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default void addJSONValueAt(long value, int index) throws IndexOutOfBoundsException
+    {
+        addJSONValueAt(new StandardJSONLong(value), index);
+    }
+
+    /**
+     * Inserts the given {@param value} at the indicated {@param index}
+     * @param value The value to be inserted
+     * @param index The index at which the value should be inserted
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default void addJSONValueAt(String value, int index) throws IndexOutOfBoundsException
+    {
+        addJSONValueAt(new StandardJSONString(value), index);
+    }
+
+    /**
+     * Inserts the given {@param value} at the indicated {@param index}
+     * @param index The index at which the null should be inserted
+     * @throws IndexOutOfBoundsException Thrown if the {@param index} is not 0 < {@param index} < {@link JSONArray#size()}
+     */
+    public default void addJSONNullAt(int index) throws IndexOutOfBoundsException
+    {
+        addJSONValueAt(new StandardJSONNull(), index);
+    }
+
+    //endregion
 
     //region Getters
 
