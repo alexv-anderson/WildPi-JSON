@@ -13,13 +13,13 @@ import java.util.List;
 public class StandardJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
 {
     @Override
-    public void addJSONValue(JSONValue value)
+    public void add(JSONValue value)
     {
         values.add(value);
     }
 
     @Override
-    public void addJSONValueAt(JSONValue value, int index)
+    public void addAt(JSONValue value, int index)
     {
         values.add(index, value);
     }

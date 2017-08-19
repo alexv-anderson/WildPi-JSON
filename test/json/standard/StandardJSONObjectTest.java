@@ -1,7 +1,6 @@
 package json.standard;
 
 import json.*;
-import json.standard.*;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -45,7 +44,7 @@ public class StandardJSONObjectTest
     public void testArray()
     {
         JSONArray array = new StandardJSONArray();
-        array.addJSONValue(new StandardJSONNull());
+        array.add(new StandardJSONNull());
         JSONObject outerObject = new StandardJSONObject();
         outerObject.put("key", array);
 

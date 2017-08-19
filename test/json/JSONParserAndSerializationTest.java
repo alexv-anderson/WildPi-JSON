@@ -22,7 +22,7 @@ public class JSONParserAndSerializationTest
     {
         String key = "key";
         JSONArray array = new StandardJSONArray();
-        array.addJSONValue(new StandardJSONNull());
+        array.add(new StandardJSONNull());
         JSONObject object = new StandardJSONObject();
         object.put(key, array);
 

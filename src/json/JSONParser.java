@@ -85,7 +85,7 @@ public class JSONParser
                 return new ValuePack<>(i, array);
 
             ValuePack pack = parseValue(s, i);
-            array.addJSONValue(pack.getValue());
+            array.add(pack.getValue());
             i = pack.getEndIndex();
         }
 
