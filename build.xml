@@ -5,13 +5,9 @@
     <property name="lib.dir" value="lib"/>
     <property name="test.dir" value="test"/>
     <property name="bin.src.dir" value="${bin.dir}/${src.dir}"/>
-    <property name="jar.name" value="json-6.jar"/>
+    <property name="jar.name" value="com.wildpi.json-6.jar"/>
     <property name="jar.dir" value="jar"/>
     <property name="report.dir" value="report"/>
-
-    <path id="src.lib.path">
-
-    </path>
 
     <!-- Cleans the bin directory and makes the bin/src directory -->
     <target name="clean">
@@ -21,9 +17,7 @@
 
     <!-- Compiles only the source -->
     <target name="build" depends="clean">
-        <javac srcdir="${src.dir}" destdir="${bin.src.dir}" includeantruntime="false">
-            <classpath refid="src.lib.path"/>
-        </javac>
+        <javac srcdir="${src.dir}" destdir="${bin.src.dir}" includeantruntime="false" />
     </target>
 
     <!-- Creates jar -->
@@ -55,14 +49,11 @@
         <mkdir dir="${bin.test.dir}"/>
 
         <!-- Compile source with debug information -->
-        <javac srcdir="${src.dir}" destdir="${bin.src.dir}" includeantruntime="false" debug="true">
-            <classpath refid="src.lib.path"/>
-        </javac>
+        <javac srcdir="${src.dir}" destdir="${bin.src.dir}" includeantruntime="false" debug="true" />
 
         <!-- Classpath for running JUnit tests-->
         <path id="test.lib.classpath">
             <path refid="junit.classpath"/>
-            <path refid="src.lib.path"/>
             <pathelement location="${bin.src.dir}"/>
             <pathelement location="${bin.test.dir}"/>
         </path>
