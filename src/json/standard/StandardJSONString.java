@@ -7,7 +7,7 @@ import json.JSONString;
  *
  * @author Alex
  */
-public class StandardJSONString extends AbstractSimpleJSONValue<String> implements JSONString
+public class StandardJSONString extends AbstractJSONValue<String> implements JSONString
 {
     public StandardJSONString(String value)
     {

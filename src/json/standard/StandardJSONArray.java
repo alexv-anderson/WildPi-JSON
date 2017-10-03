@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Alex
  */
-public class StandardJSONArray extends AbstractSimpleJSONValue<List<JSONValue>> implements JSONArray
+public class StandardJSONArray extends AbstractJSONValue<List<JSONValue>> implements JSONArray
 {
     @Override
     public void add(JSONValue value)

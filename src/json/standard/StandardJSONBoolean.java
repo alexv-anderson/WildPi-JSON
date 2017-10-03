@@ -7,7 +7,7 @@ import json.JSONBoolean;
  *
  * @author Alex
  */
-public class StandardJSONBoolean extends AbstractSimpleJSONValue<Boolean> implements JSONBoolean
+public class StandardJSONBoolean extends AbstractJSONValue<Boolean> implements JSONBoolean
 {
     public StandardJSONBoolean(boolean value)
     {

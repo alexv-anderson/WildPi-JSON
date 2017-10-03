@@ -7,7 +7,7 @@ import json.JSONDouble;
  *
  * @author Alex
  */
-public class StandardJSONDouble extends AbstractSimpleJSONValue<Double> implements JSONDouble
+public class StandardJSONDouble extends AbstractJSONValue<Double> implements JSONDouble
 {
     public StandardJSONDouble(double value)
     {

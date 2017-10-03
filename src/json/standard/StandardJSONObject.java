@@ -11,7 +11,7 @@ import java.util.Set;
  *
  * @author Alex
  */
-public class StandardJSONObject extends AbstractSimpleJSONValue<Map<String, JSONValue>> implements JSONObject
+public class StandardJSONObject extends AbstractJSONValue<Map<String, JSONValue>> implements JSONObject
 {
     @Override
     public JSONObject getObject(String key)

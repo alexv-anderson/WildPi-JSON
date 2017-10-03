@@ -7,7 +7,7 @@ import json.JSONLong;
  *
  * @author Alex
  */
-public class StandardJSONLong extends AbstractSimpleJSONValue<Long> implements JSONLong
+public class StandardJSONLong extends AbstractJSONValue<Long> implements JSONLong
 {
     public StandardJSONLong(long value)
     {

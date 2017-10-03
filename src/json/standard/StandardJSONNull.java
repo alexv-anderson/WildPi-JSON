@@ -7,7 +7,7 @@ import json.JSONNull;
  *
  * @author Alex
  */
-public class StandardJSONNull extends AbstractSimpleJSONValue<Object> implements JSONNull
+public class StandardJSONNull extends AbstractJSONValue<Object> implements JSONNull
 {
     @Override
     public String serialize()

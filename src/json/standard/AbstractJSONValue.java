@@ -1,13 +1,13 @@
 package json.standard;
 
 /**
- * Helper class which handles equality and hash codes
+ * Parent class which handles basic equality and hash codes
  *
  * @param <V> The type of object which determines the object's overall equality.
  *
  * @author Alex
  */
-abstract class AbstractSimpleJSONValue<V>
+abstract class AbstractJSONValue<V>
 {
     /**
      * Supplies the value which determines the object's equality
@@ -21,7 +21,7 @@ abstract class AbstractSimpleJSONValue<V>
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
 
-        AbstractSimpleJSONValue<?> that = (AbstractSimpleJSONValue<?>) o;
+        AbstractJSONValue<?> that = (AbstractJSONValue<?>) o;
 
         return getValue().equals(that.getValue());
     }
