@@ -60,7 +60,7 @@ public class StandardJSONArrayTest
     {
         JSONString s = new StandardJSONString("hello \" hello");
         JSONArray array = new StandardJSONArray();
-        array.add(s);
+        array.add(s.toString());
 
         assertThat("Should contain JSON string at zero", array.getStringAt(0), is(s));
     }
@@ -70,7 +70,7 @@ public class StandardJSONArrayTest
     {
         JSONDouble value = new StandardJSONDouble(Double.MAX_VALUE);
         JSONArray array = new StandardJSONArray();
-        array.add(value);
+        array.add(value.toDouble());
 
         assertThat("Should contain JSON double at zero", array.getDoubleAt(0), is(value));
     }
@@ -80,7 +80,7 @@ public class StandardJSONArrayTest
     {
         JSONLong value = new StandardJSONLong(Long.MAX_VALUE);
         JSONArray array = new StandardJSONArray();
-        array.add(value);
+        array.add(value.toLong());
 
         assertThat("Should contain JSON long at zero", array.getLongAt(0), is(value));
     }
@@ -90,7 +90,7 @@ public class StandardJSONArrayTest
     {
         JSONBoolean value = new StandardJSONBoolean(true);
         JSONArray array = new StandardJSONArray();
-        array.add(value);
+        array.add(value.toBoolean());
 
         assertThat("Should contain JSON boolean at zero", array.getBooleanAt(0), is(value));
     }
@@ -127,7 +127,7 @@ public class StandardJSONArrayTest
     public void testDoubleElementArray()
     {
         JSONArray jsonArray = new StandardJSONArray();
-        jsonArray.add(new StandardJSONNull());
+        jsonArray.addJSONNull();
         jsonArray.add(new StandardJSONNull());
 
         assertThat("Did not correctly serialize single element JSON array", jsonArray.serialize(), is("[null,null]"));

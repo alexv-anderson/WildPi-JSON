@@ -56,7 +56,7 @@ public class StandardJSONObjectTest
     {
         JSONString value = new StandardJSONString("hello \" hello");
         JSONObject outerObject = new StandardJSONObject();
-        outerObject.put("key", value);
+        outerObject.put("key", value.toString());
 
         assertThat("\"key\" should be mapped to a JSON string", outerObject.getString("key"), is(value));
     }
@@ -66,7 +66,7 @@ public class StandardJSONObjectTest
     {
         JSONDouble value = new StandardJSONDouble(Double.MAX_VALUE);
         JSONObject outerObject = new StandardJSONObject();
-        outerObject.put("key", value);
+        outerObject.put("key", value.toDouble());
 
         assertThat("\"key\" should be mapped to a JSON double", outerObject.getDouble("key"), is(value));
     }
@@ -76,7 +76,7 @@ public class StandardJSONObjectTest
     {
         JSONLong value = new StandardJSONLong(Long.MAX_VALUE);
         JSONObject outerObject = new StandardJSONObject();
-        outerObject.put("key", value);
+        outerObject.put("key", value.toLong());
 
         assertThat("\"key\" should be mapped to a JSON double", outerObject.getLong("key"), is(value));
     }
@@ -86,7 +86,7 @@ public class StandardJSONObjectTest
     {
         JSONBoolean value = new StandardJSONBoolean(true);
         JSONObject outerObject = new StandardJSONObject();
-        outerObject.put("key", value);
+        outerObject.put("key", value.toBoolean());
 
         assertThat("\"key\" should be mapped to a JSON long", outerObject.getBoolean("key"), is(value));
     }
@@ -95,7 +95,7 @@ public class StandardJSONObjectTest
     public void testNull()
     {
         JSONObject outerObject = new StandardJSONObject();
-        outerObject.put("key", new StandardJSONNull());
+        outerObject.putNull("key");
 
         assertThat("\"key\" should be mapped to a JSON long", outerObject.isNull("key"));
     }
