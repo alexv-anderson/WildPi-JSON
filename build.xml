@@ -10,7 +10,7 @@
     <property name="lib.test.dir" value="${lib.dir}/${test.dir}"/>
 
     <property name="jar.dir" value="jar"/>
-    <property name="jar.name" value="com.wildpi.json-6.jar"/>
+    <property name="jar.name" value="com.wildpi.utils.data.json-6.jar"/>
 
     <!-- Cleans the bin directory and makes the bin/src directory -->
     <target name="clean">
