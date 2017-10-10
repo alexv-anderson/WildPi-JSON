@@ -7,7 +7,7 @@ import com.wildpi.json.standard.*;
  *
  * @author Alex
  */
-public class JSONParser
+public final class JSONParser
 {
     /**
      * Parses the given string to a {@link JSONObject}.
