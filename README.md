@@ -3,9 +3,9 @@
 This is a simple JSON library for Java. It started out as a programming exercise, but has grown into a tool that I like to use for some of my other projects.
 
 ### Table of Contents
-1. [Why use WildPi-JSON](#why_use_wildpi-json)
-2. [Getting Started](#getting_started)
-3. [Getting Fancy](#getting_fancy_-_parse/serialize_json_to_javautilmap)
+1. [Why use WildPi-JSON](#why-use-wildpi-json)
+2. [Getting Started](#getting-started)
+3. [Getting Fancy - Parse/Serialize JSON to java.util.Map](getting-fancy---parseserialize-json-to-javautilmap)
 
 ## Why use WildPi-JSON?
 
