@@ -26,7 +26,7 @@ To get the original string of JSON back simply call the `serialize` method:
 JSONObject object = JSONParser.parse("{ \"key\": \"value\" }");
 System.out.println(object.serialize());
 ```
-WildPi-JSON can "JSONify" Java objects, but it does not use annotations or reflection to automatically determine which members of an object should be included. The difference originates from my projects where I originally developed WildPi-JSON. In these projects the JSON produced by needed different properties to be included or excluded based on runtime conditions. To allow for this each object implements the `ToJSONable` interface which is used in a similar fashion to the `Object#toString` method. As a result to "JSONify" a Java object you can use `ToJSONable#asJSON`. However, this is not a requirement. Below is one way in which  the "JSONification" of a Java object could be constructed using WildPi-JSON
+WildPi-JSON can "JSONify" Java objects, but it does not use annotations or reflection to automatically determine which members of an object should be included. The difference originates from my projects where I originally developed WildPi-JSON. In these projects, the JSON produced by my classes needed different properties to be included or excluded based on runtime conditions. To allow for this each object implements the `ToJSONable` interface which is used in a similar fashion to the `Object#toString` method. As a result to "JSONify" a Java object you can use `ToJSONable#asJSON`. However, this is not a requirement. Below is one way in which  the "JSONification" of a Java object could be constructed using WildPi-JSON
 
 ```java
 Point tpr = new Point(true);
